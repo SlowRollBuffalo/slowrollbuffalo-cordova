@@ -1,0 +1,131 @@
+<html>
+<head>
+	
+	<title>SlowRoll Buffalo</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="css/foundation.min.css" />
+	<link rel="stylesheet" href="css/index.css" />
+	
+
+</head>
+<body>
+
+
+	<div>
+	</div>
+
+	
+		<div class="off-canvas-wrap docs-wrap" data-offcanvas>
+  			<div class="inner-wrap">
+    			<div class="top-bar">
+    				<section class="right tab-bar-section">
+        				<h2 class="title right">SlowRoll Bufallo</h2>
+      				</section>
+    			</div>
+    			<nav class="tab-bar">
+      				
+      				<section class="left-small">
+        				<a class="left-off-canvas-toggle menu-icon" >
+        					<span></span>
+        				</a>
+      				</section>
+
+      				<section class="right tab-bar-section">
+        				<h2 class="title">SlowRoll Bufallo</h2>
+      				</section>
+
+      			</nav>
+
+				<aside class="left-off-canvas-menu">
+					<hr/>
+		        	
+	          		<h3><a class="menu-link" href="#/rides">Rides</a></h3>
+          			<h3><a class="menu-link" href="#/settings">Settings</a></h3>
+	          		<h3><a class="menu-link" href="#/logout">Logout</a></h3>
+			        
+			    </aside>
+
+			    <section class="main-section">
+  					<div class="row">
+    					<div class="large-12 columns pages">
+    						<div id="page-splash" class="page"></div>
+    						<div id="page-login" class="page">
+    							<center>
+    								<h2>Login</h2>
+    								<br/>
+    								<!--<p>
+    								Login with your email below, or click "Register" to get started!
+    								</p>-->
+    							</center>
+    							<label>Email</label>
+    							<input id="page-login-email" type="text"></input>
+    							<label>Password</label>
+    							<input id="page-login-password" type="password"></input>
+    							<br/>
+    							<button id="page-login-login" class="left">Login</button>
+    							<button id="page-login-register" class="right">Register</button>
+			    			</div>
+			    			<div id="page-register" class="page">
+			    			</div>
+			    			<div id="page-rides" class="page">
+			    			</div>
+			    			<div id="page-settings" class="page">
+			    			</div>
+			    			<div id="page-logout" class="page">
+			    			</div>
+			    		</div>
+			    	</div>
+			    </section>
+
+    			</nav>
+    		</div>
+    	</div>
+		
+
+		<!--
+		<div class="row">
+			<div class="columns large-12">
+				<div class="off-canvas-wrap" data-offcanvas>
+				  	<div class="inner-wrap">
+
+					    <a class="left-off-canvas-toggle" href="#" >Menu</a>
+
+					    <aside class="left-off-canvas-menu">
+					        <ul>
+					          <li><a href="#">Item 1</a></li>
+					        ...
+					        </ul>
+					    </aside>
+
+					    <p>
+					    Set in the year 0 F.E. ("Foundation Era"), The Psychohistorians opens on Trantor, the capital of the 12,000-year-old Galactic Empire. Though the empire appears stable and powerful, it is slowly decaying in ways that parallel the decline of the Western Roman Empire. Hari Seldon, a mathematician and psychologist, has developed psychohistory, a new field of science and psychology that equates all possibilities in large societies to mathematics, allowing for the prediction of future events.
+					    </p>
+
+					  	<a class="exit-off-canvas"></a>
+
+				  	</div>
+				</div>
+			</div>
+		</div>
+		-->
+	</div>
+
+	<script src="js/jquery-2.1.4.min.js"></script>
+	<script src="js/foundation.min.js"></script>
+	<script src="js/jquery.sha256.js"></script>
+	<script src="js/index.js"></script>
+	<script>
+		$(document).foundation();
+
+		$(document).ready(function() {
+
+			app.init();
+
+			app.display_page('login');
+		});
+
+	</script>
+
+</body>
+</html>
