@@ -6,7 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="css/foundation.min.css" />
 	<link rel="stylesheet" href="css/index.css" />
-	
+
+	<!-- debug -->
+	<!--<script type="text/javascript" charset="utf-8" src="../platforms/android/assets/www/cordova.js"></script>-->
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>	
 
 </head>
 <body>
@@ -14,7 +17,6 @@
 
 	<div>
 	</div>
-
 	
 		<div class="off-canvas-wrap docs-wrap" data-offcanvas>
   			<div class="inner-wrap">
@@ -23,7 +25,7 @@
         				<h2 class="title right">SlowRoll Bufallo</h2>
       				</section>
     			</div>
-    			<nav class="tab-bar">
+    			<nav class="tab-bar" style="display: none;">
       				
       				<section class="left-small">
         				<a class="left-off-canvas-toggle menu-icon" >
@@ -38,8 +40,7 @@
       			</nav>
 
 				<aside class="left-off-canvas-menu">
-					<hr/>
-		        	
+					
 	          		<h3><a class="menu-link" href="#/rides">Rides</a></h3>
           			<h3><a class="menu-link" href="#/settings">Settings</a></h3>
 	          		<h3><a class="menu-link" href="#/logout">Logout</a></h3>
@@ -48,15 +49,12 @@
 
 			    <section class="main-section">
   					<div class="row">
-    					<div class="large-12 columns pages">
+    					<div id="pages" class="large-12 columns pages" style="display: none;">
     						<div id="page-splash" class="page"></div>
     						<div id="page-login" class="page">
     							<center>
     								<h2>Login</h2>
     								<br/>
-    								<!--<p>
-    								Login with your email below, or click "Register" to get started!
-    								</p>-->
     							</center>
     							<label>Email</label>
     							<input id="page-login-email" type="text"></input>
@@ -67,8 +65,35 @@
     							<button id="page-login-register" class="right">Register</button>
 			    			</div>
 			    			<div id="page-register" class="page">
+			    				<center>
+    								<h2>New User Registeration</h2>
+    							</center>
+    							<p>
+    								Fill out the information below to register for the SlowRoll Buffalo app!
+    								<br/>
+    							</p>
+			    				<label>First Name</label>
+    							<input id="page-register-first" type="text"></input>
+    							<label>Last Name</label>
+    							<input id="page-register-last" type="text"></input>
+    							<label>Email</label>
+    							<input id="page-register-email" type="text"></input>
+    							<label>Password</label>
+    							<input id="page-register-password1" type="password"></input>
+    							<label>Password Again</label>
+    							<input id="page-register-password2" type="password"></input>
+    							<br/>
+    							<button id="page-register-cancel" class="left">Cancel</button>
+    							<button id="page-register-submit" class="right">Submit</button>
 			    			</div>
 			    			<div id="page-rides" class="page">
+			    				<h2>SlowRoll Buffalo Rides</h2>
+			    				<div id="ride-list">
+			    					<center>
+			    					<img class="loading-icon" src="img/cube.gif"></img>
+			    					<h4 class="loading-text">Loading Ride List ...</h4>
+			    					</center>
+			    				</div>
 			    			</div>
 			    			<div id="page-settings" class="page">
 			    			</div>
@@ -112,18 +137,31 @@
 	</div>
 
 	<script src="js/jquery-2.1.4.min.js"></script>
+	<!--<script src="js/jquery.mobile-1.4.5.js"></script>-->
 	<script src="js/foundation.min.js"></script>
 	<script src="js/jquery.sha256.js"></script>
 	<script src="js/index.js"></script>
 	<script>
-		$(document).foundation();
+		
 
-		$(document).ready(function() {
+		//$(document).ready(function() {
+		// device is ready
+		document.addEventListener(
+			'deviceready',
+			function () {
+				// cordova.plugins.notification.local is now available
 
-			app.init();
+				$(document).foundation();
 
-			app.display_page('login');
-		});
+				app.initialize();
+
+				app.display_page('login');
+
+			}, false
+		);
+
+			
+		//});
 
 	</script>
 

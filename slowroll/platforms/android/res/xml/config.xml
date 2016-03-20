@@ -8,13 +8,19 @@
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
     <allow-intent href="market:*" />
-    <name>SlowRoll</name>
+    <name>SlowRoll Buffalo</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        SlowRoll Buffalo App
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="tim@timduffy.me" href="http://timduffy.me/">
+        Timothy Duffy
     </author>
     <content src="index.html" />
     <access origin="*" />

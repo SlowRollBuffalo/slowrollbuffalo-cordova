@@ -52,17 +52,19 @@ label {
 
 .top-bar {
     background: #333;
+    height: 3rem;
+    line-height: 3rem;
 }
 
 .top-bar h2 {
     font-size: 1.125rem;
     /*color: #fff;*/
     font-weight: bold;
-    line-height: 2.8125rem;
+    line-height: 3rem;
     margin: 0;
 
     color: inherit;
-    height: inherit;
+    /*height: inherit;*/
     left: 1.25em;
     line-height: inherit;
     /*margin: 0;
@@ -87,4 +89,22 @@ label {
     padding-top: .25rem;
     padding-bottom: .25rem;
     border-bottom: solid 2px #e5e5e5;
+}
+
+.loading-icon {
+    margin-top: 4rem;
+}
+
+.loading-text {
+    margin-top: 1rem;
+    color: rgba(255, 0, 0, .8);
+}
+
+.ride-entry {
+    padding: 1.5rem;
+    border-bottom: 1px solid #AAA;
+}
+
+.ride-entry i {
+    padding-right: .75rem;
 }

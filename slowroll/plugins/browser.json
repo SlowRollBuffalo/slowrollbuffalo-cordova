@@ -1,0 +1,30 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-app-event": {
+            "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        }
+    },
+    "dependent_plugins": {}
+}
