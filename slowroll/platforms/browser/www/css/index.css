@@ -21,6 +21,7 @@ button {
     padding-left: 1.75rem;
     border-radius: 6px;
     cursor: pointer;
+    color: #EEE;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -99,6 +100,11 @@ label {
     border-bottom: solid 2px #e5e5e5;
 }
 
+#legal-modal-contents {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
 .loading-icon {
     margin-top: 4rem;
 }
@@ -106,6 +112,11 @@ label {
 .loading-text {
     margin-top: 1rem;
     color: rgba(255, 0, 0, .8);
+}
+
+#ride-list {
+    height: 100%;
+    overflow-x: scroll;
 }
 
 .ride-entry {

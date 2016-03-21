@@ -5,7 +5,9 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" href="css/foundation.min.css" />
+	<link rel="stylesheet" href="css/normalize.min.css" />
 	<link rel="stylesheet" href="css/index.css" />
+
 
 	<!-- debug -->
 	<!--<script type="text/javascript" charset="utf-8" src="../platforms/android/assets/www/cordova.js"></script>-->
@@ -16,7 +18,14 @@
 
 
 	<div>
+		<div id="legal-modal" class="reveal-modal" data-reveal aria-hidden="true" role="dialog">
+			<h3>Legal</h3>
+			<div id="legal-modal-contents"></div>
+			<button id="legal-modal-accept" class="right">Accept</button>
+			<button id="legal-modal-cancel" class="left">Cancel</button>
+		</div>
 	</div>
+
 	
 		<div class="off-canvas-wrap docs-wrap" data-offcanvas>
   			<div class="inner-wrap">
@@ -27,24 +36,26 @@
     			</div>
     			<nav class="tab-bar" style="display: none;">
       				
-      				<section class="left-small">
-        				<a class="left-off-canvas-toggle menu-icon" >
-        					<span></span>
-        				</a>
+      				<section class="right-small">
+        				<a class="right-off-canvas-toggle menu-icon"><span></span></a>
       				</section>
 
-      				<section class="right tab-bar-section">
+      				<section class="left tab-bar-section">
         				<h2 class="title">SlowRoll Bufallo</h2>
       				</section>
 
       			</nav>
 
-				<aside class="left-off-canvas-menu">
-					
-	          		<h3><a class="menu-link" href="#/rides">Rides</a></h3>
-          			<h3><a class="menu-link" href="#/settings">Settings</a></h3>
-	          		<h3><a class="menu-link" href="#/logout">Logout</a></h3>
-			        
+				<aside class="right-off-canvas-menu">
+					<ul class="off-canvas-list">
+				        <li></li>
+				        <li><h3><a class="menu-link" href="#/rides">Rides</a></h3></li>
+				        <li><h3><a class="menu-link" href="#/rides">Partners</a></h3></li>
+				        <hr/>
+				        <li><h3><a class="menu-link" href="#/settings">Settings</a></h3></li>
+				        <hr/>
+				        <li><h3><a class="menu-link" href="#/logout">Logout</a></h3></li>
+			      	</ul>
 			    </aside>
 
 			    <section class="main-section">
@@ -139,6 +150,7 @@
 	<script src="js/jquery-2.1.4.min.js"></script>
 	<!--<script src="js/jquery.mobile-1.4.5.js"></script>-->
 	<script src="js/foundation.min.js"></script>
+	<script sec="js/foundation.reveal.min.js"></script>
 	<script src="js/jquery.sha256.js"></script>
 	<script src="js/index.js"></script>
 	<script>
@@ -151,6 +163,7 @@
 			function () {
 				// cordova.plugins.notification.local is now available
 
+				$(document).foundation();
 				$(document).foundation();
 
 				app.initialize();

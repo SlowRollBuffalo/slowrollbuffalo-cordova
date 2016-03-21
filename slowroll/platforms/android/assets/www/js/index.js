@@ -2,6 +2,13 @@
 var base_url = 'http://slowrollbuffalo.mycodespace.net';
 //var base_url = 'http://localhost:6577';
 
+// taken from:
+//   http://stackoverflow.com/a/46181
+function validateEmail(email) {
+	var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+	return re.test(email);
+}
+
 var app = {
 
 	initialize: function() {
@@ -58,6 +65,31 @@ var app = {
 				return;
 			}
 
+			if ( first == '' || last == '' || !validateEmail(email) || password1 == '' || password2 == '') {
+				alert("Yikes! Looks like you're missing some info to register.  Please try again.");
+				return;
+			}
+
+			// get legal from the serve
+			app.get_legal();
+
+			// set our loading gears
+			$('#legal-modal-contents').html('<center><img class="loading-icon" src="img/cube.gif"></img>');
+
+			// display the modal
+			$('#legal-modal').foundation('reveal', 'open');
+			
+		});
+
+		$('#legal-modal-accept').on('click', function() {
+			var first = $('#page-register-first').val()
+			var last = $('#page-register-last').val()
+			var email = $('#page-register-email').val()
+			var password1 = $.sha256($('#page-register-password1').val());
+			var password2 = $.sha256($('#page-register-password2').val());
+
+			$('#legal-modal').html('<center><img class="" src="img/cube.gif"></img><h3>Registering you with SlowRoll Buffalo ...</h3></center>');
+
 			$.ajax({
 				url: base_url + '/api/users/register',
 				type: 'POST',
@@ -68,8 +100,9 @@ var app = {
 					password: password1
 				}),
 				success: function(resp) {
-					alert("You're registered!  Check your email!");
+					$('#legal-modal').foundation('reveal', 'close');
 					app.display_page('login');
+					alert("You're registered!  Check your email!");
 				},
 				error: function(resp) {
 					// todo: figure out what the error was, and what
@@ -77,9 +110,27 @@ var app = {
 				}
 				
 			});
-			
-		});		
+		});
 
+		$('#legal-modal-cancel').on('click', function() {
+			$('#legal-modal').foundation('reveal', 'close');
+		});
+
+		$('#nav-link-rides').on('click', function() {
+			display_page('rides');
+		});
+
+		$('#nav-link-partnerss').on('click', function() {
+			display_page('partners');
+		});
+
+		$('#nav-link-settings').on('click', function() {
+			display_page('settings');
+		});
+
+		$('#nav-link-logout').on('click', function() {
+			display_page('logout');
+		});		
 	},
 
 	setup_plugins: function() {
@@ -204,6 +255,34 @@ var app = {
 	_load_object: function(name) {
 		var json = localStorage.getItem(name);
 		return JSON.parse(json);
+	},
+
+	legal: {},
+
+	get_legal: function() {
+		$.ajax({
+			url: base_url + '/api/users/legal',
+			type: 'GET',
+			success: function(resp) {
+
+				// save them to the app var
+				app.legal = resp;
+				// save them to local storage
+				app._save_object('legal', app.legal);
+				// update the UI
+				app.load_legal();
+
+			},
+			error: function(resp) {
+
+			}
+		});
+	},
+
+	load_legal: function() {
+		var html = '';
+		html += app.legal.legal_notice;
+		$('#legal-modal-contents').html(html);
 	},
 
 	/****************************************************************
