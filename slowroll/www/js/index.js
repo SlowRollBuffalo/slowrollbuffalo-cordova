@@ -92,7 +92,7 @@ var app = {
 						app.display_page('rides');
 						break;
 					default:
-						app.display_page('login');
+						app.display_page('rides');
 						break;
 				};
 				
@@ -232,6 +232,7 @@ var app = {
 	setup_plugins: function() {
 
 		//
+		/*
 		var watchId = navigator.geolocation.watchPosition(
 			// success
 			function(position) {
@@ -252,6 +253,7 @@ var app = {
             // options
             { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }
         );
+        */
 
 	    // register call back for when a notification is triggered
 	    cordova.plugins.notification.local.on('trigger', function (notification) {

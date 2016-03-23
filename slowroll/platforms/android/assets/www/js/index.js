@@ -13,6 +13,13 @@ function validateEmail(email) {
 	return re.test(email);
 }
 
+// taken from:
+//   http://stackoverflow.com/a/1050782
+Date.prototype.addHours = function(h) {    
+   this.setTime(this.getTime() + (h*60*60*1000)); 
+   return this;   
+}
+
 var app = {
 
 	initialize: function() {
@@ -42,6 +49,9 @@ var app = {
 		document.addEventListener(
 			"backbutton", 
 			function() {
+				
+				// back buttons are hard ...
+
 				console.log('back button pressed.');
 				switch(app.current_page) {
 					case '':
@@ -58,13 +68,15 @@ var app = {
 						app.display_page('rides');
 						break;
 					case 'rides':
-						alert('hi');
-						// exit the app
+						//
+						// this gets fired too early, and the page isn't fully displayed yet.
+						// need to figure out how to go about doing that.
+						// 
+					    /*
 					    navigator.notification.confirm(
 					        'Are you sure you want to exit?',  	// message
 					        function(buttonIndex) {				// callback
-					        	console.log('inside');
-					        	if ( buttonIndex == 1 )
+					        	if ( buttonIndex == 0 )
 					        		// exit app
 					        		navigator.app.exitApp();
 					        	else
@@ -74,14 +86,16 @@ var app = {
 					        'Quit?',          					// title
 					        'No,Yes'          					// buttonLabels
 					    );
+					    */
 						break;
 					case 'settings':
 						app.display_page('rides');
 						break;
 					default:
-						app.display_page('login');
+						app.display_page('rides');
 						break;
 				};
+				
 			},
 			false
 		);
@@ -92,9 +106,14 @@ var app = {
 
 		// login screen login button click
 		$('#page-login-login').on('click', function() {
+			var email = $('#page-login-email').val().toLowerCase().trim();
+			var password = $('#page-login-password').val();
+			
+			$('#page-login-password').val('');
+
 			app.login(
-				$('#page-login-email').val().toLowerCase().trim(),
-				$('#page-login-password').val(),
+				email,
+				password,
 				function(resp) {
 					app._save_object('token', {'token': resp.token});
 					app.post_login();
@@ -106,12 +125,13 @@ var app = {
 			);
 		});
 
-		//
-		// Register Page
-		//
 		$('#page-login-register').on('click', function() {
 			app.display_page('register');
 		});
+
+		//
+		// Register Page
+		//
 
 		$('#page-register-cancel').on('click', function() {
 			app.display_page('login');
@@ -152,6 +172,8 @@ var app = {
 			var password1 = $.sha256($('#page-register-password1').val());
 			var password2 = $.sha256($('#page-register-password2').val());
 
+			//$('#page-login-email').val(email);
+
 		 	$('#legal-modal').html('<center><img class="" src="img/cube.gif"></img><h3>Registering you with SlowRoll Buffalo ...</h3></center>');
 
 			$.ajax({
@@ -167,7 +189,7 @@ var app = {
 				success: function(resp) {
 					$('#legal-modal').foundation('reveal', 'close');
 					app.display_page('login');
-					alert("You're registered!  Check your email!");
+					alert("Congratualtions, you're registered!");
 				},
 				error: function(resp) {
 					// todo: figure out what the error was, and what
@@ -210,6 +232,7 @@ var app = {
 	setup_plugins: function() {
 
 		//
+		/*
 		var watchId = navigator.geolocation.watchPosition(
 			// success
 			function(position) {
@@ -230,6 +253,7 @@ var app = {
             // options
             { maximumAge: 3000, timeout: 5000, enableHighAccuracy: true }
         );
+        */
 
 	    // register call back for when a notification is triggered
 	    cordova.plugins.notification.local.on('trigger', function (notification) {
@@ -266,6 +290,22 @@ var app = {
 
 	},
 
+	checkin: function(ride_id, callback) {
+		var payload = JSON.stringify({
+			'ride_id': ride_id
+		});
+		console.log('checkin:');
+		console.log(payload);
+		$.ajax({
+			url: base_url + '/api/checkins?token=' + app._load_object('token')['token'],
+			type: 'POST',
+			data: JSON.stringify({
+				'ride_id': ride_id
+			}),
+			success: function(resp) { callback(); },
+			error: function(resp) { app.display_page('login'); }
+		})
+	},
 
 	post_login: function() {
 
@@ -274,7 +314,6 @@ var app = {
 
         // get the latest ride list from the server 
         app.get_rides();
-        app.get_partners();
 
 		// get the latest partners list
 		this.get_partners();
@@ -291,6 +330,7 @@ var app = {
 	},
 
 	current_page: '',
+	exit_attempt_count: 0, // this is a future hack ...
 
 	display_page: function(page, immediate) {
 		app.current_page = page;
@@ -442,20 +482,71 @@ var app = {
 	 *
 	 ****************************************************************/
 	load_rides: function() {
+		
+		
+
+		var now = new Date().getTime();
+
 		var rides = app._load_object('rides');
-		//console.log('rides:');
-		//console.log(rides);
+
+		console.log('rides:');
+		console.log(app.rides);
+
 		var html = '';
 		for(var i=0; i<rides.length; i++) {
+
 			var ride = rides[i].ride;
 			var sponsor = rides[i].sponsor;
+			var start_time = new Date(ride.ride_datetime + ' 22:00:00').getTime();
+			//console.log('start_time (string)');
+			//console.log(start_time);
+			//start_time.setTime(start_time.getTime() + ( (18+4) * 60 * 60 * 1000 ));
+			//start_time = start_time
+			//console.log('start_time (time)');
+			//console.log(start_time);
+			
+			//console.log(start_time);
 			html += '<div class="ride-entry">';
             html += '    <span class="">' + ride.title + '</span><br>';
             html += '    <span><i class="fa fa-calendar-o"></i>' + ride.ride_datetime + '</span><br>';
             html += '    <span><i class="fa fa-map-marker"></i>' + ride.address_0 + '</span>';
+            // need to check if we can check into the ride
+            //console.log('---- math time ----');
+            //console.log(start_time);
+            //console.log(now);
+            //console.log(Math.abs( start_time - now ));
+            //console.log(Math.abs( start_time - now ) < ( 3600 * 1000 ));
+            //console.log(( 3600 * 1000 ))
+            // 1 hour +/- you can check in
+            if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
+            	html += '<br/><br/><button id = "' + ride.id + '">Time To Check In!</button>';
+            }
         	html += '</div>';
 		}
+
+		// set the elements in the DOM
 		$('#ride-list').html(html);
+
+		// can't set the click call backs until the elements are in the DOM
+		for(var i=0; i<rides.length; i++) {
+			var ride = rides[i].ride;
+			var start_time = new Date(ride.ride_datetime + ' 22:00:00').getTime();
+			// if we're within an hour, setup the click event ( because the button has been added to the UI )
+			if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
+				$('#' + ride.id).on('click', function() {
+					app.checkin(
+						ride.id,
+						// success
+						function() {
+							// todo: tell the user they checked in successfully.
+							alert("You've been checked into the ride! Happy SlowRolling!");
+						}
+						// note: no error.  error will redirect to login screen
+					);
+				});
+			}
+		}
+
 	},
 
 
@@ -519,15 +610,12 @@ var app = {
 		for(var i=0; i<partners.length; i++) {
 			var partner = partners[i];
 			html += '<div class="partner-entry">';
-			html += '    <button id="' + partner.id + '" class="right">More Info</button>';
             html += '    <span class="">' + partner.name + '</span><br/>';
             html += '    <span class="">' + partner.level + '</span><br/>';
             html += '    <span><i class="fa fa-map-marker"></i>' + partner.address_0 + '</span><br/>';
-            html += '    <span class="span-buffer">' + partner.city + ', ' + partner.zipcode + '</span>';
+            html += '    <span class="span-buffer">' + partner.city + ', ' + partner.zipcode + '</span><br/>';
+            html += '    <button id="' + partner.id + '" class="">More Info</button>';
         	html += '</div>';
-
-        	
-
 		}
 
 		// hide, and render the div ( note: this UX could be TERRIBLE for slow phones ...)
@@ -601,11 +689,11 @@ var app = {
 
 		for(var i=0; i<app.partners.length; i++) {
 			
-			var top_left_lat = partners[i].top_left_lat;
-			var top_left_lng = partners[i].top_left_lng;
-			var bottom_right_lat = partners[i].bottom_right_lat;
-			var bottom_right_lng = partners[i].bottom_right_lng;
-			notification_text = partners[i].notification_text;
+			var top_left_lat = app.partners[i].top_left_lat;
+			var top_left_lng = app.partners[i].top_left_lng;
+			var bottom_right_lat = app.partners[i].bottom_right_lat;
+			var bottom_right_lng = app.partners[i].bottom_right_lng;
+			var notification_text = app.partners[i].notification_text;
 
 			// dirty "point in box" calculation
 			if ( top_left_lat + 90 > lat + 90 &&
