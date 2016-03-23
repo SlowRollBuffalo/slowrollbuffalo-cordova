@@ -28,6 +28,10 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 300;
 }
 
+h4 {
+    padding-bottom: .25rem;
+}
+
 p {
     display: inline-block;
     color: #777;
@@ -45,6 +49,14 @@ label {
     font-size: 0.9em;
     font-weight: 300;
     margin: 0 0 1em 0;
+}
+
+i {
+    padding-right: .75rem;
+}
+
+.main-section {
+    height: 90%;
 }
 
 .left {
@@ -114,7 +126,7 @@ label {
     color: rgba(255, 0, 0, .8);
 }
 
-#ride-list {
+.page {
     height: 100%;
     overflow-x: scroll;
 }
@@ -124,6 +136,19 @@ label {
     border-bottom: 1px solid #AAA;
 }
 
-.ride-entry i {
+/*.ride-entry i {
     padding-right: .75rem;
+}*/
+
+.partner-entry {
+    padding: 1.5rem;
+    border-bottom: 1px solid #AAA;
+}
+
+/*.partner-entry i {
+    padding-right: .75rem;
+}*/
+
+.span-buffer {
+    padding-left: 1.65rem;
 }

@@ -49,19 +49,23 @@
 				<aside class="right-off-canvas-menu">
 					<ul class="off-canvas-list">
 				        <li></li>
-				        <li><h3><a class="menu-link" href="#/rides">Rides</a></h3></li>
-				        <li><h3><a class="menu-link" href="#/rides">Partners</a></h3></li>
+				        <li><h3><a id="nav-link-rides" class="menu-link">Rides</a></h3></li>
+				        <li><h3><a id="nav-link-partners" class="menu-link">Partners</a></h3></li>
 				        <hr/>
-				        <li><h3><a class="menu-link" href="#/settings">Settings</a></h3></li>
+				        <li><h3><a id="nav-link-settings" class="menu-link">Settings</a></h3></li>
 				        <hr/>
-				        <li><h3><a class="menu-link" href="#/logout">Logout</a></h3></li>
+				        <li><h3><a id="nav-link-logout" class="menu-link">Logout</a></h3></li>
 			      	</ul>
 			    </aside>
 
 			    <section class="main-section">
   					<div class="row">
     					<div id="pages" class="large-12 columns pages" style="display: none;">
+    						
+    						<!-- Splace Screen -->
     						<div id="page-splash" class="page"></div>
+    						
+    						<!-- Login page -->
     						<div id="page-login" class="page">
     							<center>
     								<h2>Login</h2>
@@ -75,6 +79,8 @@
     							<button id="page-login-login" class="left">Login</button>
     							<button id="page-login-register" class="right">Register</button>
 			    			</div>
+
+			    			<!-- Registration page -->
 			    			<div id="page-register" class="page">
 			    				<center>
     								<h2>New User Registeration</h2>
@@ -97,6 +103,8 @@
     							<button id="page-register-cancel" class="left">Cancel</button>
     							<button id="page-register-submit" class="right">Submit</button>
 			    			</div>
+
+			    			<!-- Rides List Page -->
 			    			<div id="page-rides" class="page">
 			    				<h2>SlowRoll Buffalo Rides</h2>
 			    				<div id="ride-list">
@@ -106,8 +114,34 @@
 			    					</center>
 			    				</div>
 			    			</div>
+
+			    			<!-- Partners List Page -->
+			    			<div id="page-partners" class="page">
+			    				<h2>SlowRoll Buffalo Partners</h2>
+			    				<div id="partner-list">
+			    					<center>
+			    					<img class="loading-icon" src="img/cube.gif"></img>
+			    					<h4 class="loading-text">Loading Partners List ...</h4>
+			    					</center>
+			    				</div>
+			    			</div>
+
+			    			<!-- Partner Page -->
+			    			<div id="page-partner" class="page">
+			    				<!--<h2 id="page-parter-name"></h2>-->
+			    				<div id="partner-info">
+			    					<center>
+			    					<img class="loading-icon" src="img/cube.gif"></img>
+			    					<h4 class="loading-text">Loading Partner Info ...</h4>
+			    					</center>
+			    				</div>
+			    			</div>
+
+			    			<!-- Settings Page -->
 			    			<div id="page-settings" class="page">
 			    			</div>
+
+			    			<!-- Logout Page -->
 			    			<div id="page-logout" class="page">
 			    			</div>
 			    		</div>
@@ -147,13 +181,13 @@
 		-->
 	</div>
 
-	<script src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery-2.1.4.min.js"></script>
 	<!--<script src="js/jquery.mobile-1.4.5.js"></script>-->
-	<script src="js/foundation.min.js"></script>
-	<script sec="js/foundation.reveal.min.js"></script>
-	<script src="js/jquery.sha256.js"></script>
-	<script src="js/index.js"></script>
-	<script>
+	<script type="text/javascript" charset="utf-8" src="js/foundation.min.js"></script>
+	<script type="text/javascript" charset="utf-8" sec="js/foundation.reveal.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/jquery.sha256.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+	<script type="text/javascript" charset="utf-8">
 		
 
 		//$(document).ready(function() {
@@ -164,11 +198,11 @@
 				// cordova.plugins.notification.local is now available
 
 				$(document).foundation();
-				$(document).foundation();
+				$(document).foundation('offcanvas', 'reflow');
 
 				app.initialize();
 
-				app.display_page('login');
+				app.display_page('login', true);
 
 			}, false
 		);

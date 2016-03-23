@@ -21,6 +21,9 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.slowrollbuffalo.app"
         }
     },
     "dependent_plugins": {
