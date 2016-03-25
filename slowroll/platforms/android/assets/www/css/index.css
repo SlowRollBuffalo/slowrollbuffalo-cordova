@@ -79,13 +79,21 @@ i {
 
 }
 
-.top-login-bar {
+/*.top-login-bar {
     height: 4rem;
     padding-left: 1.5rem;
     background: #FAFAFA;
     border-bottom: 1px solid #AAAAAA;
     box-shadow: 0 4px 2px -2px #DDDDDD;
-    /*line-height:100px;*/
+
+}*/
+
+.top-bar-area {
+    height: 4rem;
+    padding-left: 1.5rem;
+    background: #FAFAFA;
+    border-bottom: 1px solid #AAAAAA;
+    box-shadow: 0 4px 2px -2px #DDDDDD;
 }
 
 .top-logo {
@@ -118,7 +126,7 @@ i {
     background-color: #FAFAFA;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 100;
+    z-index: 1000000;
 }
 
 .dots-menu-dropdown a {

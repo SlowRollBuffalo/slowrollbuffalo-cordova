@@ -441,11 +441,8 @@ var app = {
 				break;
 		};
 
-		if ( immediate == true ) {
+		if ( immediate == true )
 			$('#page-' + page).show();
-			$('#page-' + page).show();
-			console.log('showing page: ' + '#page-' + page);
-		}
 		else
 			$('#page-' + page).show(300);
 	},

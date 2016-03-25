@@ -24,36 +24,45 @@ var app = {
 
 	initialize: function() {
 
+		this.bind_events();
+
+		this.setup_plugins();
+
 		// first thing, try and login using the stored credentials ( if
 		// they exist )
 
 		var valid_credentials = app._load_object('valid_credentials');
 
+		console.log('valid_credentials');
+		console.log(valid_credentials);
+
 		if ( valid_credentials != undefined && valid_credentials.valid ) {
+			console.log('inside 0');
 			var credentials = app._load_object('credentials');
 			if ( credentials != undefined ) {
+				console.log('inside 1');
 				app.login(
 					credentials.email, 
 					credentials.password,
 					function() { app.display_page('rides'); },
-					function() { app.display_page('login'); }
+					function() { app.display_page('login', truue); }
 				);
 			}
 			else {
-				app.display_page('login');
+				console.log('else 1');
+				app.display_page('login', true);
 			}
 		} else {
-			app.display_page('login');
+			console.log('else 0');
+			app.display_page('login', true);
 		}
 
-		this.bind_events();
-
-		this.setup_plugins();
+		
 		
         //app.display_notification('Loaded!');
 
         // hide all pags to start
-        $('.page').hide();
+        //$('.page').hide();
 
         // after 2 seconds, hide the splash screen
         setTimeout( function() {
@@ -397,6 +406,7 @@ var app = {
 	exit_attempt_count: 0, // this is a future hack ...
 
 	display_page: function(page, immediate) {
+		console.log('display_page(), page = "' + page + '"');
 		app.current_page = page;
 		if ( immediate == true )
 			$('.page').hide();
@@ -404,17 +414,19 @@ var app = {
 			$('.page').hide(300);
 		switch(page) {
 			case 'splash':
-				$('.top-bar').hide();
-				$('.tab-bar').hide();
+				//$('.top-bar').hide();
+				//$('.tab-bar').hide();
 				break;
 			case 'login':
 			case 'register':
-				$('.top-bar').show();
-				$('.tab-bar').hide();
+				//$('.top-bar').show();
+				//$('.tab-bar').hide();
+				$('#menu-wrapper').hide();
 				break;
 			default:
-				$('.top-bar').hide();
-				$('.tab-bar').show();
+				//$('.top-bar').hide();
+				//$('.tab-bar').show();
+				$('#menu-wrapper').show();
 				break;
 		};
 
