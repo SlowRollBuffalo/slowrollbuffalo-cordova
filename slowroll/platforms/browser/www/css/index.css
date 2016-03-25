@@ -55,6 +55,22 @@ i {
     padding-right: .75rem;
 }
 
+.splash-screen {
+    height: 100%;
+    width: 100%;
+    /*background: rgba(255,0,0,.8) !important;*/
+    text-align: center;
+}
+
+.splash-screen-logo {
+    padding-top: 4rem;
+    font-size: 800%;
+}
+
+.splash-screen-text {
+    padding-top: 2rem;
+}
+
 .main-section {
     height: 90%;
 }
@@ -63,6 +79,63 @@ i {
 
 }
 
+.top-login-bar {
+    height: 4rem;
+    padding-left: 1.5rem;
+    background: #FAFAFA;
+    border-bottom: 1px solid #AAAAAA;
+    box-shadow: 0 4px 2px -2px #DDDDDD;
+    /*line-height:100px;*/
+}
+
+.top-logo {
+    float: left;
+    height: 100%;
+    padding-top: 0.75rem;
+    /*vertical-align: middle;
+    margin-top:0px;
+    margin-bottom:0px;*/
+}
+
+.top-menu-wrapper {
+    height: 100%;
+    padding-top: 1rem;
+}
+
+.dots-menu-icon {
+    /*padding: 1rem;*/
+    padding-top: 0rem;
+    padding-bottom: 0.75rem;
+    padding-right: 2rem;
+    vertical-align: middle;
+}
+
+.dots-menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background-color: #FAFAFA;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 100;
+}
+
+.dots-menu-dropdown a {
+    color: black;
+    padding: .5rem .75rem;
+    text-decoration: none;
+    display: block;
+    font-weight: 400 !important;
+}
+
+.show-dots-menu-dropdown {
+    display:block;
+}
+
+
+
+/*
 .tab-bar {
     color: #777 !important;
 }
@@ -79,27 +152,21 @@ i {
 
 .top-bar h2 {
     font-size: 1.125rem;
-    /*color: #fff;*/
     font-weight: bold;
     line-height: 3rem;
     margin: 0;
-
     color: inherit;
-    /*height: inherit;*/
     left: 1.25em;
     line-height: inherit;
-    /*margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 0;*/
 }
 
 .tab-bar-section {
     text-align: center;
 }
+*/
 
 .menu-link {
-    margin: 2rem;
+    margin: 1rem;
 }
 
 .page {
@@ -128,7 +195,11 @@ i {
 
 .page {
     height: 100%;
-    overflow-x: scroll;
+}
+
+.page-scrolling {
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .ride-entry {
@@ -151,4 +222,8 @@ i {
 
 .span-buffer {
     padding-left: 1.65rem;
+}
+
+.more-partner-info i {
+    padding-right: 0px;
 }

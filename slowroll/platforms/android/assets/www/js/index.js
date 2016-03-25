@@ -24,7 +24,23 @@ var app = {
 
 	initialize: function() {
 
+		// first thing, try and login using the stored credentials ( if
+		// they exist )
 
+		if ( app._load_object('valid_credentials') ) {
+			var credentials = app._load_object('credentials');
+			if ( credentials != undefined ) {
+				app.login(
+					credentials.email, 
+					credentials.password,
+					function() { app.display_page('rides'); },
+					function() { app.display_page('login'); }
+				);
+			}
+			else {
+				app.display_page('login');
+			}
+		}
 
 		this.bind_events();
 
@@ -35,9 +51,12 @@ var app = {
         // hide all pags to start
         $('.page').hide();
 
-        // show the app!
-        $('#pages').show();
-
+        // after 2 seconds, hide the splash screen
+        setTimeout( function() {
+        	$('#splash-screen').fadeOut();
+        	// show the app!
+        	$('#pages').fadeIn();
+        }, 2000 );
         
 	},
 
@@ -113,9 +132,8 @@ var app = {
 
 			app.login(
 				email,
-				password,
+				$.sha256(password),
 				function(resp) {
-					app._save_object('token', {'token': resp.token});
 					app.post_login();
 				},
 				function() {
@@ -204,28 +222,48 @@ var app = {
 		});
 
 		//
+		// Nav Menu
+		//
+		$('#dots-menu').on('click', function() {
+			console.log('dots menu toggled.');
+			$('#dots-menu-dropdown').toggle();
+		});
+
+		$(document).click(function (event) {
+			console.log(event);
+			if ( event.target.id != 'dots-menu-icon' )
+				$('#dots-menu-dropdown').hide();
+		});
+
+		//
 		// Navigation Links
 		//
 
 		$('#nav-link-rides').on('click', function() {
-			$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
-			app.display_page('rides', true);
+			//$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
+			$('#dots-menu-dropdown').hide();
+			app.display_page('rides');
 		});
 
 		$('#nav-link-partners').on('click', function() {
-			$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
-			app.display_page('partners', true);
+			//$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
+			$('#dots-menu-dropdown').hide();
+			app.display_page('partners');
 		});
 
 		$('#nav-link-settings').on('click', function() {
-			$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
-			app.display_page('settings', true);
+			//$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
+			$('#dots-menu-dropdown').hide();
+			app.display_page('settings');
 		});
 
 		$('#nav-link-logout').on('click', function() {
-			$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
+			//$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
+			$('#dots-menu-dropdown').hide();
+
 			// todo: invalidate credentials locally
-			app.display_page('login', false);
+			
+			app.display_page('login');
 		});		
 	},
 
@@ -272,16 +310,35 @@ var app = {
 	},
 
 	login: function(email, password, success, failure) {
+
+		// save the credentials for use in the success callback
+		app._email = email;
+		app._password = password;
+
         $.ajax({
             url: base_url + '/api/users/login',
             type: 'POST',
             //contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({
-                email: email,
-                password: $.sha256(password),
+                email: app._email,
+                password: app._password,
                 platform: PLATFORM
             }),
-            success: function(resp) { success(resp); },
+            success: function(resp) { 
+
+            	// per the docs, the localStorage is sandboxed to the cordova
+            	// app, so we can just save the login credentials there.
+
+            	app._save_object('credentials', {'email': app._email, 'password': app._password});
+            	app._save_object('token', {'token': resp.token});
+            	app._save_object('valid_credentials', true);
+
+            	// no need to keep them around once they are saved to localStorage
+            	app._email = undefined;
+            	app._password = undefined;
+            
+            	success(resp); 
+            },
             error: function(resp) { failure(resp); }
         });
     },
@@ -337,7 +394,7 @@ var app = {
 		if ( immediate == true )
 			$('.page').hide();
 		else
-			$('.page').hide(500);
+			$('.page').hide(300);
 		switch(page) {
 			case 'splash':
 				$('.top-bar').hide();
@@ -368,7 +425,7 @@ var app = {
 		if ( immediate == true )
 			$('#page-' + page).show();
 		else
-			$('#page-' + page).show(500);
+			$('#page-' + page).show(300);
 	},
 
 	/****************************************************************
@@ -507,9 +564,10 @@ var app = {
 			
 			//console.log(start_time);
 			html += '<div class="ride-entry">';
-            html += '    <span class="">' + ride.title + '</span><br>';
+            html += '    <span class=""><b>' + ride.title + '</b></span><br>';
             html += '    <span><i class="fa fa-calendar-o"></i>' + ride.ride_datetime + '</span><br>';
-            html += '    <span><i class="fa fa-map-marker"></i>' + ride.address_0 + '</span>';
+            html += '    <span><i class="fa fa-map-marker"></i>' + ride.address_0 + '</span></br>';
+            html += '    <span class="span-buffer">' + ride.city + ', ' + ride.zipcode + '</span><br/>';
             // need to check if we can check into the ride
             //console.log('---- math time ----');
             //console.log(start_time);
@@ -610,11 +668,11 @@ var app = {
 		for(var i=0; i<partners.length; i++) {
 			var partner = partners[i];
 			html += '<div class="partner-entry">';
-            html += '    <span class="">' + partner.name + '</span><br/>';
-            html += '    <span class="">' + partner.level + '</span><br/>';
+            html += '    <button id="' + partner.id + '" class="right more-partner-info"><i class="fa fa-info"></i></button>';
+            html += '    <span class=""><b>' + partner.name + '</b></span><br/>';
+            //html += '    <span class="">' + partner.level + '</span><br/>';
             html += '    <span><i class="fa fa-map-marker"></i>' + partner.address_0 + '</span><br/>';
             html += '    <span class="span-buffer">' + partner.city + ', ' + partner.zipcode + '</span><br/>';
-            html += '    <button id="' + partner.id + '" class="">More Info</button>';
         	html += '</div>';
 		}
 
@@ -667,9 +725,9 @@ var app = {
 		console.log('load_parter(), id = ' + app.partner.id);
 		console.log(app.partner);
 		var html = '';
-		html += '<h2>' + app.partner.name + '</h2>'
-		html += '<br/>';
-        html += '<h4>' + app.partner.level + '</h4><br/>';
+		html += '<h2 class="">' + app.partner.name + '</h2>'
+		//html += '<br/>';
+        //html += '<h4>' + app.partner.level + '</h4><br/>';
         html += '<span><i class="fa fa-map-marker"></i>' + app.partner.address_0 + '</span><br/>';
         html += '<span class="span-buffer">' + app.partner.city + ', ' + app.partner.zipcode + '</span>';
         html += '<hr/>';
