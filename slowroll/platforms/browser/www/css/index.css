@@ -1,0 +1,237 @@
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic");
+
+body {
+    background: #f5f5f5;
+    color: #777;
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 16pt;
+    font-weight: 300;
+    line-height: 1.65em;
+    letter-spacing: -0.015em;
+}
+
+button {
+    background: #4c3180;
+    border: none;
+    /*padding: 1rem;*/
+    padding-top: 0.875rem;
+    padding-right: 1.75rem;
+    padding-bottom: 0.9375rem;
+    padding-left: 1.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #EEE;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+}
+
+h4 {
+    padding-bottom: .25rem;
+}
+
+p {
+    display: inline-block;
+    color: #777;
+    margin: .5em 0 .25em 0;
+    padding: .5em 0 0 0;
+    font-size: 1em;
+    line-height: 1.5em;
+    font-style: normal;
+    font-weight: 300;
+}
+
+label {
+    color: #646464;
+    display: block;
+    font-size: 0.9em;
+    font-weight: 300;
+    margin: 0 0 1em 0;
+}
+
+i {
+    padding-right: .75rem;
+}
+
+.splash-screen {
+    height: 100%;
+    width: 100%;
+    /*background: rgba(255,0,0,.8) !important;*/
+    text-align: center;
+}
+
+.splash-screen-logo {
+    padding-top: 4rem;
+    font-size: 800%;
+}
+
+.splash-screen-text {
+    padding-top: 2rem;
+}
+
+.main-section {
+    height: 90%;
+}
+
+.left {
+
+}
+
+/*.top-login-bar {
+    height: 4rem;
+    padding-left: 1.5rem;
+    background: #FAFAFA;
+    border-bottom: 1px solid #AAAAAA;
+    box-shadow: 0 4px 2px -2px #DDDDDD;
+
+}*/
+
+.top-bar-area {
+    height: 4rem;
+    padding-left: 1.5rem;
+    background: #FAFAFA;
+    border-bottom: 1px solid #AAAAAA;
+    box-shadow: 0 4px 2px -2px #DDDDDD;
+}
+
+.top-logo {
+    float: left;
+    height: 100%;
+    padding-top: 0.75rem;
+    /*vertical-align: middle;
+    margin-top:0px;
+    margin-bottom:0px;*/
+}
+
+.top-menu-wrapper {
+    height: 100%;
+    padding-top: 1rem;
+}
+
+.dots-menu-icon {
+    /*padding: 1rem;*/
+    padding-top: 0rem;
+    padding-bottom: 0.75rem;
+    padding-right: 2rem;
+    vertical-align: middle;
+}
+
+.dots-menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background-color: #FAFAFA;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000000;
+}
+
+.dots-menu-dropdown a {
+    color: black;
+    padding: .5rem .75rem;
+    text-decoration: none;
+    display: block;
+    font-weight: 400 !important;
+}
+
+.show-dots-menu-dropdown {
+    display:block;
+}
+
+
+
+/*
+.tab-bar {
+    color: #777 !important;
+}
+
+.tab-bar h2 {
+    color: #777 !important;
+}
+
+.top-bar {
+    background: #333;
+    height: 3rem;
+    line-height: 3rem;
+}
+
+.top-bar h2 {
+    font-size: 1.125rem;
+    font-weight: bold;
+    line-height: 3rem;
+    margin: 0;
+    color: inherit;
+    left: 1.25em;
+    line-height: inherit;
+}
+
+.tab-bar-section {
+    text-align: center;
+}
+*/
+
+.menu-link {
+    margin: 1rem;
+}
+
+.page {
+    display: none;
+}
+
+#page-login h2 {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    border-bottom: solid 2px #e5e5e5;
+}
+
+#legal-modal-contents {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.loading-icon {
+    margin-top: 4rem;
+}
+
+.loading-text {
+    margin-top: 1rem;
+    color: rgba(255, 0, 0, .8);
+}
+
+.page {
+    height: 100%;
+}
+
+.page-scrolling {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.ride-entry {
+    padding: 1.5rem;
+    border-bottom: 1px solid #AAA;
+}
+
+/*.ride-entry i {
+    padding-right: .75rem;
+}*/
+
+.partner-entry {
+    padding: 1.5rem;
+    border-bottom: 1px solid #AAA;
+}
+
+/*.partner-entry i {
+    padding-right: .75rem;
+}*/
+
+.span-buffer {
+    padding-left: 1.65rem;
+}
+
+.more-partner-info i {
+    padding-right: 0px;
+}
