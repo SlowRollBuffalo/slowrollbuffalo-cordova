@@ -27,7 +27,9 @@ var app = {
 		// first thing, try and login using the stored credentials ( if
 		// they exist )
 
-		if ( app._load_object('valid_credentials') ) {
+		var valid_credentials = app._load_object('valid_credentials');
+
+		if ( valid_credentials != undefined && valid_credentials.valid ) {
 			var credentials = app._load_object('credentials');
 			if ( credentials != undefined ) {
 				app.login(
@@ -40,6 +42,8 @@ var app = {
 			else {
 				app.display_page('login');
 			}
+		} else {
+			app.display_page('login');
 		}
 
 		this.bind_events();
@@ -262,6 +266,9 @@ var app = {
 			$('#dots-menu-dropdown').hide();
 
 			// todo: invalidate credentials locally
+			app._save_object('credentials', {'email':'', 'password': ''});
+			app._save_object('valid_credentials', {'valid': false});
+			app._save_object('token', {'token': ''});
 			
 			app.display_page('login');
 		});		
@@ -331,7 +338,7 @@ var app = {
 
             	app._save_object('credentials', {'email': app._email, 'password': app._password});
             	app._save_object('token', {'token': resp.token});
-            	app._save_object('valid_credentials', true);
+            	app._save_object('valid_credentials', {'valid': true});
 
             	// no need to keep them around once they are saved to localStorage
             	app._email = undefined;
