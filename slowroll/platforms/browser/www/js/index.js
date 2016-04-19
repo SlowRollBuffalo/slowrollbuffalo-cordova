@@ -185,11 +185,16 @@ var app = {
 				return;
 			}
 
+			// save the new registered creds as the default login
+			app._save_object('credentials', {'email': email, 'password': password1});
+        	//app._save_object('token', {'token': resp.token});
+        	//app._save_object('valid_credentials', {'valid': true});
+
 			// get legal from the serve
 			app.get_legal();
 
 			// set our loading gears
-			$('#legal-modal-contents').html('<center><img class="loading-icon" src="img/cube.gif"></img>');
+			$('#legal-modal-contents').html('<center><img class="loading-icon" src="img/gears.svg"></img>');
 
 			// display the modal
 			$('#legal-modal').foundation('reveal', 'open');
@@ -205,7 +210,7 @@ var app = {
 
 			//$('#page-login-email').val(email);
 
-		 	$('#legal-modal').html('<center><img class="" src="img/cube.gif"></img><h3>Registering you with SlowRoll Buffalo ...</h3></center>');
+		 	$('#legal-modal').html('<center><img class="" src="img/gears.svg"></img><h3>Registering you with SlowRoll Buffalo ...</h3></center>');
 
 			$.ajax({
 				url: base_url + '/api/users/register',
@@ -215,12 +220,18 @@ var app = {
 					last: last,
 					email: email,
 					password: password1,
-					platform: PLATFORM,
+					//platform: device.platform,
+                	//version: device.version
 				}),
 				success: function(resp) {
+					console.log(resp);
 					$('#legal-modal').foundation('reveal', 'close');
-					app.display_page('login');
-					alert("Congratualtions, you're registered!");
+					app.check_login(
+						function() {
+							app.display_page('rides');
+						}
+					)
+
 				},
 				error: function(resp) {
 					// todo: figure out what the error was, and what
@@ -370,7 +381,7 @@ var app = {
 	check_login: function(callback) {
 
 		$.ajax({
-			url: '/api/users/login',
+			url: base_url + '/api/users/login',
 			type: 'GET',
 			success: function(resp) {
 				if ( resp.loggedin == false ) {
