@@ -4,7 +4,7 @@ var base_url = 'http://slowrollbuffalo.mycodespace.net';
 
 // TODO: need to generate the correct platform based on what
 //       platform we're actually on
-PLATFORM = 'android';
+//PLATFORM = 'android';
 
 // taken from:
 //   http://stackoverflow.com/a/46181
@@ -56,8 +56,6 @@ var app = {
 			console.log('else 0');
 			app.display_page('login', true);
 		}
-
-		
 		
         //app.display_notification('Loaded!');
 
@@ -69,7 +67,9 @@ var app = {
         	$('#splash-screen').fadeOut();
         	// show the app!
         	$('#pages').fadeIn();
-        }, 2000 );
+        }, 750 );
+
+        app.device = device.cordova;
         
 	},
 
@@ -274,13 +274,16 @@ var app = {
 			//$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
 			$('#dots-menu-dropdown').hide();
 
-			// todo: invalidate credentials locally
-			app._save_object('credentials', {'email':'', 'password': ''});
-			app._save_object('valid_credentials', {'valid': false});
-			app._save_object('token', {'token': ''});
+			app.invalidate_login();
 			
 			app.display_page('login');
 		});		
+	},
+
+	invalidate_login: function() {
+		app._save_object('credentials', {'email':'', 'password': ''});
+		app._save_object('valid_credentials', {'valid': false});
+		app._save_object('token', {'token': ''});
 	},
 
 	setup_plugins: function() {
@@ -338,7 +341,8 @@ var app = {
             data: JSON.stringify({
                 email: app._email,
                 password: app._password,
-                platform: PLATFORM
+                platform: device.platform,
+                version: device.version
             }),
             success: function(resp) { 
 
@@ -360,6 +364,36 @@ var app = {
     },
 
 	logout: function() {
+
+	},
+
+	check_login: function(callback) {
+
+		$.ajax({
+			url: '/api/users/login',
+			type: 'GET',
+			success: function(resp) {
+				if ( resp.loggedin == false ) {
+					app.login(
+						app._load_object('credentials')['email'],
+						app._load_object('credentials')['password'],
+						function() {
+							if ( callback != undefined ) { callback(); }
+						},
+						function() {
+							app.display_page('login');
+						}
+					);
+				} else {
+					if ( callback != undefined ) { callback(); }
+				}
+			},
+			error: function() {
+				 
+			}
+		});
+
+		
 
 	},
 

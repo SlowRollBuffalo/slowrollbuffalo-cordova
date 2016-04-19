@@ -12,7 +12,8 @@ body {
 }
 
 button {
-    background: #4c3180;
+    /*background: #4c3180;*/
+    background: #008CBA;
     border: none;
     /*padding: 1rem;*/
     padding-top: 0.875rem;
@@ -55,11 +56,25 @@ i {
     padding-right: .75rem;
 }
 
+.red {
+    color: rgba(242, 48, 12, 1);
+}
+
+.blue {
+    color: rgba(48, 106, 189, 1);
+}
+
+.white {
+    color: rgba(254, 254, 254, 1);  
+}
+
 .splash-screen {
     height: 100%;
     width: 100%;
     /*background: rgba(255,0,0,.8) !important;*/
     text-align: center;
+    /*background: rgba(242, 48, 12, 1);   */
+    background: #222;
 }
 
 .splash-screen-logo {
@@ -68,7 +83,8 @@ i {
 }
 
 .splash-screen-text {
-    padding-top: 2rem;
+    padding-top: 10rem;
+    color: rgba(48, 106, 189, 1) !important;
 }
 
 .main-section {
@@ -91,7 +107,8 @@ i {
 .top-bar-area {
     height: 4rem;
     padding-left: 1.5rem;
-    background: #FAFAFA;
+    /*background: #FAFAFA;*/
+    background: #222 !important;
     border-bottom: 1px solid #AAAAAA;
     box-shadow: 0 4px 2px -2px #DDDDDD;
 }
@@ -100,6 +117,7 @@ i {
     float: left;
     height: 100%;
     padding-top: 0.75rem;
+    color: #EEE;
     /*vertical-align: middle;
     margin-top:0px;
     margin-bottom:0px;*/
