@@ -18,9 +18,9 @@
         <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
     </feature>
     <allow-intent href="market:*" />
-    <name>SlowRoll Buffalo</name>
+    <name>Slow Roll Buffalo</name>
     <description>
-        SlowRoll Buffalo App
+        Slow Roll Buffalo App
     </description>
     <author email="tim@timduffy.me" href="http://timduffy.me/">
         Timothy Duffy

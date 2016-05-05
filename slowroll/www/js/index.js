@@ -209,7 +209,7 @@ var app = {
 
 			//$('#page-login-email').val(email);
 
-		 	$('#legal-modal').html('<center><img class="" src="img/gears.svg"></img><h3>Registering you with SlowRoll Buffalo ...</h3></center>');
+		 	$('#legal-modal').html('<center><img class="" src="img/gears.svg"></img><h3>Registering you with Slow Roll Buffalo ...</h3></center>');
 
 			$.ajax({
 				url: base_url + '/api/users/register',
@@ -679,7 +679,7 @@ var app = {
 						// success
 						function() {
 							// todo: tell the user they checked in successfully.
-							alert("You've been checked into the ride! Happy SlowRolling!");
+							alert("You've been checked into the ride! Happy Slow Rolling!");
 						}
 						// note: no error.  error will redirect to login screen
 					);
