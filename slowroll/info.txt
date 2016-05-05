@@ -1,8 +1,14 @@
+Node version: v4.2.1
+
+Cordova version: 6.0.0
+
+Config.xml file: 
+
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.slowrollbuffalo.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Slow Roll Buffalo</name>
+<widget id="com.slowrollbuffalo.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>SlowRoll Buffalo</name>
     <description>
-        Slow Roll Buffalo App
+        SlowRoll Buffalo App
     </description>
     <author email="tim@timduffy.me" href="http://timduffy.me/">
         Timothy Duffy
@@ -24,3 +30,13 @@
         <allow-intent href="itms-apps:*" />
     </platform>
 </widget>
+
+
+Plugins: 
+
+cordova-plugin-app-event,cordova-plugin-console,cordova-plugin-device,cordova-plugin-dialogs,cordova-plugin-geolocation,cordova-plugin-whitelist,de.appplant.cordova.plugin.local-notification
+
+Error retrieving Android platform information: Error: android: Command failed with exit code ENOENT
+
+
+

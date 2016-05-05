@@ -2,31 +2,39 @@
 @import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic");
 
 body {
-    background: #f5f5f5;
+    /*background: #f5f5f5;*/
+    background: #F8F8F8;
     color: #777;
     font-family: "Source Sans Pro", sans-serif !important;
     font-size: 16pt;
     font-weight: 300;
     line-height: 1.65em;
     letter-spacing: -0.015em;
+    color: rgba(48, 106, 189, 1);
 }
 
 button {
     /*background: #4c3180;*/
-    background: #008CBA;
+    /*background: #008CBA;*/
+    background: rgba(48, 106, 189, 1);
     border: none;
     /*padding: 1rem;*/
-    padding-top: 0.875rem;
+    /*padding-top: 0.875rem;
     padding-right: 1.75rem;
     padding-bottom: 0.9375rem;
-    padding-left: 1.75rem;
-    border-radius: 6px;
+    padding-left: 1.75rem;*/
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    /*border-radius: 6px;*/
     cursor: pointer;
     color: #EEE;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 300;
+    /*font-weight: 300;*/
+    color: rgba(242, 48, 12, 1);
 }
 
 h4 {
@@ -56,6 +64,42 @@ i {
     padding-right: .75rem;
 }
 
+a {
+    border-bottom: none;
+}
+
+#site-wrapper {
+    overflow-y: hidden;
+    height: 100%;
+}
+
+/*
+.main-section {
+    overflow-y: hidden;
+    height: 100%;
+}
+*/
+
+/*
+footer {
+    position: fixed;
+    left:0px;
+    bottom:0px;
+    height:30px;
+    width: 100%;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+*/
+
+.right {
+    float: right;
+}
+
+.full-width {
+    width: 100%;
+}
+
 .red {
     color: rgba(242, 48, 12, 1);
 }
@@ -68,13 +112,22 @@ i {
     color: rgba(254, 254, 254, 1);  
 }
 
+/*
+ * Splash Screen
+ */ 
+
 .splash-screen {
     height: 100%;
     width: 100%;
     /*background: rgba(255,0,0,.8) !important;*/
     text-align: center;
     /*background: rgba(242, 48, 12, 1);   */
-    background: #222;
+    /*background: #222;*/
+    background: #F8F8F8;
+}
+
+.splash-screen h1{
+    font-size: 300% !important;
 }
 
 .splash-screen-logo {
@@ -84,40 +137,54 @@ i {
 
 .splash-screen-text {
     padding-top: 10rem;
-    color: rgba(48, 106, 189, 1) !important;
+    /*color: rgba(48, 106, 189, 1) !important;*/
+    color: rgba(242, 48, 12, 1);
 }
 
-.main-section {
-    height: 90%;
+/*
+ * Login Page
+ */
+
+#page-login {
+    overflow-y: hidden;
 }
 
-.left {
-
+#page-login h1 {
+    /*margin-top: 4rem;*/
 }
 
-/*.top-login-bar {
-    height: 4rem;
-    padding-left: 1.5rem;
-    background: #FAFAFA;
-    border-bottom: 1px solid #AAAAAA;
-    box-shadow: 0 4px 2px -2px #DDDDDD;
+#page-login h2 {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    /*border-bottom: solid 2px #e5e5e5;*/
+}
 
-}*/
+.page-login-register-text {
+    margin-top: 4rem;
+}
+
+/*
+ * Top bar
+ */
 
 .top-bar-area {
-    height: 4rem;
+    /* height: 4rem; */
     padding-left: 1.5rem;
     /*background: #FAFAFA;*/
-    background: #222 !important;
+    background: #EEE !important;
     border-bottom: 1px solid #AAAAAA;
     box-shadow: 0 4px 2px -2px #DDDDDD;
+}
+
+.top-bar-area h2 {
+    margin: 0;
 }
 
 .top-logo {
-    float: left;
-    height: 100%;
+    /*float: left;
+    height: 100%;*/
     padding-top: 0.75rem;
-    color: #EEE;
+    color: rgba(242, 48, 12, 1);
     /*vertical-align: middle;
     margin-top:0px;
     margin-bottom:0px;*/
@@ -126,6 +193,7 @@ i {
 .top-menu-wrapper {
     height: 100%;
     padding-top: 1rem;
+    float: right;
 }
 
 .dots-menu-icon {
@@ -159,50 +227,8 @@ i {
     display:block;
 }
 
-
-
-/*
-.tab-bar {
-    color: #777 !important;
-}
-
-.tab-bar h2 {
-    color: #777 !important;
-}
-
-.top-bar {
-    background: #333;
-    height: 3rem;
-    line-height: 3rem;
-}
-
-.top-bar h2 {
-    font-size: 1.125rem;
-    font-weight: bold;
-    line-height: 3rem;
-    margin: 0;
-    color: inherit;
-    left: 1.25em;
-    line-height: inherit;
-}
-
-.tab-bar-section {
-    text-align: center;
-}
-*/
-
 .menu-link {
     margin: 1rem;
-}
-
-.page {
-    display: none;
-}
-
-#page-login h2 {
-    padding-top: .25rem;
-    padding-bottom: .25rem;
-    border-bottom: solid 2px #e5e5e5;
 }
 
 #legal-modal-contents {
@@ -221,6 +247,7 @@ i {
 
 .page {
     height: 100%;
+    display: none;
 }
 
 .page-scrolling {
@@ -228,14 +255,19 @@ i {
     overflow-x: hidden;
 }
 
+#ride-list {
+    margin-top: .5rem;
+    text-align: left !important;
+}
+
 .ride-entry {
     padding: 1.5rem;
     border-bottom: 1px solid #AAA;
 }
 
-/*.ride-entry i {
-    padding-right: .75rem;
-}*/
+#partner-list {
+    text-align: left !important;
+}
 
 .partner-entry {
     padding: 1.5rem;
@@ -252,4 +284,9 @@ i {
 
 .more-partner-info i {
     padding-right: 0px;
+}
+
+#page-settings p {
+    color: rgba(48, 106, 189, 1);
+    padding-bottom: 2rem;
 }

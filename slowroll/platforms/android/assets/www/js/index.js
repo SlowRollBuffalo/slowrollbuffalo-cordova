@@ -4,7 +4,7 @@ var base_url = 'http://slowrollbuffalo.mycodespace.net';
 
 // TODO: need to generate the correct platform based on what
 //       platform we're actually on
-PLATFORM = 'android';
+//PLATFORM = 'android';
 
 // taken from:
 //   http://stackoverflow.com/a/46181
@@ -24,6 +24,8 @@ var app = {
 
 	initialize: function() {
 
+		console.log('app.initialize(), start.');
+
 		this.bind_events();
 
 		this.setup_plugins();
@@ -33,14 +35,9 @@ var app = {
 
 		var valid_credentials = app._load_object('valid_credentials');
 
-		console.log('valid_credentials');
-		console.log(valid_credentials);
-
 		if ( valid_credentials != undefined && valid_credentials.valid ) {
-			console.log('inside 0');
 			var credentials = app._load_object('credentials');
 			if ( credentials != undefined ) {
-				console.log('inside 1');
 				app.login(
 					credentials.email, 
 					credentials.password,
@@ -49,15 +46,11 @@ var app = {
 				);
 			}
 			else {
-				console.log('else 1');
 				app.display_page('login', true);
 			}
 		} else {
-			console.log('else 0');
 			app.display_page('login', true);
 		}
-
-		
 		
         //app.display_notification('Loaded!');
 
@@ -69,7 +62,11 @@ var app = {
         	$('#splash-screen').fadeOut();
         	// show the app!
         	$('#pages').fadeIn();
-        }, 2000 );
+        }, 750 );
+
+        app.device = device.cordova;
+
+        console.log('app.initialize(), exit.');
         
 	},
 
@@ -185,15 +182,22 @@ var app = {
 				return;
 			}
 
+			// save the new registered creds as the default login
+			app._save_object('credentials', {'email': email, 'password': password1});
+        	//app._save_object('token', {'token': resp.token});
+        	//app._save_object('valid_credentials', {'valid': true});
+
 			// get legal from the serve
 			app.get_legal();
 
 			// set our loading gears
-			$('#legal-modal-contents').html('<center><img class="loading-icon" src="img/cube.gif"></img>');
+			$('#legal-modal-contents').html('<center><img class="loading-icon" src="img/gears.svg"></img>');
 
 			// display the modal
-			$('#legal-modal').foundation('reveal', 'open');
-			
+			//$('#legal-modal').foundation('reveal', 'open');
+			$('#legal-modal').reveal({
+				// modal config
+			});
 		});
 
 		$('#legal-modal-accept').on('click', function() {
@@ -205,7 +209,7 @@ var app = {
 
 			//$('#page-login-email').val(email);
 
-		 	$('#legal-modal').html('<center><img class="" src="img/cube.gif"></img><h3>Registering you with SlowRoll Buffalo ...</h3></center>');
+		 	$('#legal-modal').html('<center><img class="" src="img/gears.svg"></img><h3>Registering you with SlowRoll Buffalo ...</h3></center>');
 
 			$.ajax({
 				url: base_url + '/api/users/register',
@@ -215,16 +219,24 @@ var app = {
 					last: last,
 					email: email,
 					password: password1,
-					platform: PLATFORM,
+					//platform: device.platform,
+                	//version: device.version
 				}),
 				success: function(resp) {
+					console.log(resp);
 					$('#legal-modal').foundation('reveal', 'close');
-					app.display_page('login');
-					alert("Congratualtions, you're registered!");
+					app.check_login(
+						function() {
+							app.display_notification('Registration successful!');
+							app.display_page('rides');
+						}
+					)
+
 				},
 				error: function(resp) {
 					// todo: figure out what the error was, and what
 					//       we need to do.
+					alert("Looks like you're already registered.  Try logging in with your email address and password.");
 				}
 				
 			});
@@ -274,13 +286,28 @@ var app = {
 			//$('.off-canvas-wrap').foundation('offcanvas', 'hide', 'move-left');
 			$('#dots-menu-dropdown').hide();
 
-			// todo: invalidate credentials locally
-			app._save_object('credentials', {'email':'', 'password': ''});
-			app._save_object('valid_credentials', {'valid': false});
-			app._save_object('token', {'token': ''});
+			app.invalidate_login();
 			
 			app.display_page('login');
-		});		
+		});
+
+		// on "first boot" we'll set allow partner notications to true
+		if ( app._load_object('allow-partner-notifications') == null ) {
+			app._save_object('allow-partner-notifications', {allow: true});
+			var checked = $('#textbox1').val($(this).is(':checked'));
+		}
+		$('#page-settings-allow-partner-notifications').change(function() {
+			var checked = $('#page-settings-allow-partner-notifications').is(':checked');
+			app._save_object('allow-partner-notifications', {allow: checked});
+			console.log('saved "allow-partner-notifications" as ', checked);
+		});
+
+	},
+
+	invalidate_login: function() {
+		app._save_object('credentials', {'email':'', 'password': ''});
+		app._save_object('valid_credentials', {'valid': false});
+		app._save_object('token', {'token': ''});
 	},
 
 	setup_plugins: function() {
@@ -338,7 +365,8 @@ var app = {
             data: JSON.stringify({
                 email: app._email,
                 password: app._password,
-                platform: PLATFORM
+                platform: device.platform,
+                version: device.version
             }),
             success: function(resp) { 
 
@@ -363,7 +391,38 @@ var app = {
 
 	},
 
+	check_login: function(callback) {
+
+		$.ajax({
+			url: base_url + '/api/users/login',
+			type: 'GET',
+			success: function(resp) {
+				if ( resp.loggedin == false ) {
+					app.login(
+						app._load_object('credentials')['email'],
+						app._load_object('credentials')['password'],
+						function() {
+							if ( callback != undefined ) { callback(); }
+						},
+						function() {
+							app.display_page('login');
+						}
+					);
+				} else {
+					if ( callback != undefined ) { callback(); }
+				}
+			},
+			error: function() {
+				 
+			}
+		});
+
+		
+
+	},
+
 	checkin: function(ride_id, callback) {
+		console.log('app.checkin(), start.');
 		var payload = JSON.stringify({
 			'ride_id': ride_id
 		});
@@ -375,7 +434,10 @@ var app = {
 			data: JSON.stringify({
 				'ride_id': ride_id
 			}),
-			success: function(resp) { callback(); },
+			success: function(resp) { 
+				console.log('successful checkin!');
+				callback();
+			},
 			error: function(resp) { app.display_page('login'); }
 		})
 	},
@@ -414,10 +476,14 @@ var app = {
 			$('.page').hide(300);
 		switch(page) {
 			case 'splash':
+				$('#top-bar-area').hide();
 				//$('.top-bar').hide();
 				//$('.tab-bar').hide();
 				break;
 			case 'login':
+				$('#top-bar-area').hide();
+				//$('#menu-wrapper').hide();
+				break;
 			case 'register':
 				//$('.top-bar').show();
 				//$('.tab-bar').hide();
@@ -426,6 +492,7 @@ var app = {
 			default:
 				//$('.top-bar').hide();
 				//$('.tab-bar').show();
+				$('#top-bar-area').show();
 				$('#menu-wrapper').show();
 				break;
 		};
@@ -436,6 +503,11 @@ var app = {
 				break;
 			case 'partners':
 				app.get_partners();
+				break;
+			case 'settings':
+				var allow = app._load_object('allow-partner-notifications')['allow'];
+				console.log('allow = ' + allow);
+				$('#page-settings-allow-partner-notifications').prop('checked', allow);
 				break;
 			default:
 				break;
@@ -448,7 +520,7 @@ var app = {
 	},
 
 	/****************************************************************
-	 * save_object()
+	 * _save_object()
 	 *
 	 * This is a helper function that saves a object as json to 
 	 * html4 local storage.
@@ -459,7 +531,7 @@ var app = {
 	},
 
 	/****************************************************************
-	 * load_object()
+	 * _load_object()
 	 *
 	 * This is a helper function that loads a object from local 
 	 * storage and returns an object.
@@ -574,30 +646,21 @@ var app = {
 			var ride = rides[i].ride;
 			var sponsor = rides[i].sponsor;
 			var start_time = new Date(ride.ride_datetime + ' 22:00:00').getTime();
-			//console.log('start_time (string)');
-			//console.log(start_time);
-			//start_time.setTime(start_time.getTime() + ( (18+4) * 60 * 60 * 1000 ));
-			//start_time = start_time
-			//console.log('start_time (time)');
-			//console.log(start_time);
 			
-			//console.log(start_time);
 			html += '<div class="ride-entry">';
+
+			// check if we're within 1 hour before or after the ride starts
+            if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
+            	// display the checkin button
+            	html += '<button id = "' + ride.id + '" class="right">Check In!</button>';
+            }
+            
             html += '    <span class=""><b>' + ride.title + '</b></span><br>';
             html += '    <span><i class="fa fa-calendar-o"></i>' + ride.ride_datetime + '</span><br>';
             html += '    <span><i class="fa fa-map-marker"></i>' + ride.address_0 + '</span></br>';
             html += '    <span class="span-buffer">' + ride.city + ', ' + ride.zipcode + '</span><br/>';
-            // need to check if we can check into the ride
-            //console.log('---- math time ----');
-            //console.log(start_time);
-            //console.log(now);
-            //console.log(Math.abs( start_time - now ));
-            //console.log(Math.abs( start_time - now ) < ( 3600 * 1000 ));
-            //console.log(( 3600 * 1000 ))
-            // 1 hour +/- you can check in
-            if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
-            	html += '<br/><br/><button id = "' + ride.id + '">Time To Check In!</button>';
-            }
+            
+            
         	html += '</div>';
 		}
 

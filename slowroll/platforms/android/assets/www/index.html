@@ -1,11 +1,15 @@
 <html>
 <head>
     
-    <title>SlowRoll Buffalo</title>
+    <title>Slow Roll Buffalo</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
     <link rel="stylesheet" href="css/foundation.min.css" />
     <link rel="stylesheet" href="css/normalize.min.css" />
+    -->
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/index.css" />
 
 
@@ -16,176 +20,191 @@
 </head>
 <body>
 
-	<div id="splash-screen" class="splash-screen">
-		<i class="splash-screen-logo fa fa-bicycle"></i>
-		<h2 class="splash-screen-text">SlowRoll Buffalo</h2>
-	</div>
+    <div id="site-wrapper">
 
-    <div>
-        <div id="legal-modal" class="reveal-modal" data-reveal aria-hidden="true" role="dialog">
-            <h3>Legal</h3>
-            <div id="legal-modal-contents"></div>
-            <button id="legal-modal-accept" class="right">Accept</button>
-            <button id="legal-modal-cancel" class="left">Cancel</button>
+    	<div id="splash-screen" class="splash-screen">
+    		<!--<i class="splash-screen-logo fa fa-bicycle"></i>-->
+    		<h1 class="splash-screen-text">Slow Roll</h1><h1>Buffalo</h1>
+    	</div>
+
+        <div>
+            <div id="legal-modal" class="reveal-modal" data-reveal aria-hidden="true" role="dialog">
+                <h3>Legal</h3>
+                <div id="legal-modal-contents"></div>
+                <button id="legal-modal-accept" class="">Accept</button>
+                <button id="legal-modal-cancel" class="">Cancel</button>
+            </div>
         </div>
+
+        <div id="top-bar-area" class="top-bar-area">
+            <div id="menu-wrapper">
+                <h2 class="top-menu-wrapper">
+                    <a id="dots-menu">
+                        <i id="dots-menu-icon" class="dots-menu-icon fa fa-ellipsis-v"></i>
+                    </a>
+                </h2>
+                <div id="dots-menu-dropdown" class="dots-menu-dropdown">
+                    <a id="nav-link-rides" class="menu-link">Rides</a>
+                    <a id="nav-link-partners" class="menu-link">Partners</a>
+                    <hr/>
+                    <a id="nav-link-settings" class="menu-link">Settings</a>
+                    <hr/>
+                    <a id="nav-link-logout" class="menu-link">Logout</a>
+                </div>
+            </div>
+            <h2 class="top-logo">Slow Roll Buffalo</h2>
+        </div>
+
+        <div class="main-section">
+            <div class="row2">
+                <div id="pages" class="pages" style="display: none;">
+                    
+                    <!-- Splace Screen -->
+                    <!--<div id="page-splash" class="page"></div>-->
+                    <section id="page-splash" class="page box special features"></section>
+
+                    <!-- Login page -->
+                    <!--<div id="page-login" class="page">-->
+                    <section id="page-login" class="page box special features">
+                        <center>
+                            <h1>Slow Roll<br/>Buffalo</h1>
+                            <hr/>
+                        </center>
+                        <label>Email</label>
+                        <input id="page-login-email" type="text"></input>
+                        <label>Password</label>
+                        <input id="page-login-password" type="password"></input>
+                        <br/>
+                        <button id="page-login-login" class="full-width">Login</button>
+                        <!--<button id="page-login-register" class="right">Register</button>-->
+                        <div class="page-login-register-text">
+                            Don't have an account yet?  <br/>
+                            <a id="page-login-register"><b>Create One</b></a>
+                        </div>
+                    </section>
+                    <!--</div>-->
+
+
+                    <!-- Registration page -->
+                    <!--<div id="page-register" class="page">-->
+                    <section id="page-register" class="page box special features">
+                        <center>
+                            <h2>New User Registeration</h2>
+                        </center>
+                        <p>
+                            Fill out the information below to register for the Slow Roll Buffalo app!
+                            <br/>
+                        </p>
+                        <label>First Name</label>
+                        <input id="page-register-first" type="text"></input>
+                        <label>Last Name</label>
+                        <input id="page-register-last" type="text"></input>
+                        <label>Email</label>
+                        <input id="page-register-email" type="text"></input>
+                        <label>Password</label>
+                        <input id="page-register-password1" type="password"></input>
+                        <label>Password Again</label>
+                        <input id="page-register-password2" type="password"></input>
+                        <br/>
+                        <button id="page-register-cancel" class="">Cancel</button>
+                        <button id="page-register-submit" class="">Submit</button>
+                    <!--</div>-->
+                    </section>
+
+                    <!-- Rides List Page -->
+                    <!--<div id="page-rides" class="page page-scrolling">-->
+                    <section id="page-rides" class="page box special features">
+                        <h2>Upcoming Rides</h2>
+                        <p>
+                            Come join your fellow Buffalonians for a great Slow Roll ride!
+                        </p>
+                        
+                        <div id="ride-list">
+                            <center>
+                                <img class="loading-icon" src="img/gears.svg"></img>
+                                <h4 class="loading-text">Loading ...</h4>
+                            </center>
+                        </div>
+                    <!--</div>-->
+                    </section>
+
+                    <!-- Partners List Page -->
+                    <!--<div id="page-partners" class="page page-scrolling">-->
+                    <section id="page-partners" class="page box special features">
+                        <h2>Our Partners</h2>
+                        <p>
+                            Slow Roll Buffalo is made possible by the following awesome partners!
+                        </p>
+                        <hr/>
+                        <div id="partner-list">
+                            <center>
+                                <img class="loading-icon" src="img/gears.svg"></img>
+                                <h4 class="loading-text">Loading ...</h4>
+                            </center>
+                        </div>
+                    <!--</div>-->
+                    </section>
+
+                    <!-- Partner Page -->
+                    <!--<div id="page-partner" class="page">-->
+                    <section id="page-partner" class="page box special features">
+                        <!--<h2 id="page-parter-name"></h2>-->
+                        <div id="partner-info">
+                            <center>
+                                <img class="loading-icon" src="img/gears.svg"></img>
+                                <h4 class="loading-text">Loading ...</h4>
+                            </center>
+                        </div>
+                    <!--</div>-->
+                    </section>
+
+                    <!-- Settings Page -->
+                    <!--<div id="page-settings" class="page">-->
+                    <section id="page-settings" class="page box special features">
+                        <p>
+                            Slow Roll Buffalo works with partners from all over the city.  When you're 
+                            in proximity to one of these partners, the Slow Roll Buffalo app will give
+                            you a notification of any current promotions for that partner.
+                        </p>
+                        <input id="page-settings-allow-partner-notifications" type="checkbox" value=""></input>
+                        <label for="page-settings-allow-partner-notifications">Allow Partner Notifications</label>
+                    <!--</div>-->
+                    </section>
+
+                    <!-- Logout Page -->
+                    <section id="page-logout" class="page box special features">
+                    </section>
+
+                </div>
+            </div>
+            
+        </div>
+
     </div>
 
     
-        <!--<div class="off-canvas-wrap docs-wrap" data-offcanvas>
-              <div class="inner-wrap">-->
-
-                <div class="top-bar-area">
-                    <h2 class="top-logo left"><i class="fa fa-bicycle"></i> SlowRoll Buffalo</h2>
-                    <div id="menu-wrapper">
-	                    <h2 class="right top-menu-wrapper"><a id="dots-menu"><i id="dots-menu-icon" class="dots-menu-icon fa fa-ellipsis-v"></i></a></h2>
-	                    <div id="dots-menu-dropdown" class="dots-menu-dropdown">
-	                        <a id="nav-link-rides" class="menu-link">Rides</a>
-	                        <a id="nav-link-partners" class="menu-link">Partners</a>
-	                        <hr/>
-	                        <a id="nav-link-settings" class="menu-link">Settings</a>
-	                        <hr/>
-	                        <a id="nav-link-logout" class="menu-link">Logout</a>
-	                    </div>
-	                </div>
-                </div>
-
-                <section class="main-section">
-                      <div class="row">
-                        <div id="pages" class="large-12 columns pages" style="display: none;">
-                            
-                            <!-- Splace Screen -->
-                            <div id="page-splash" class="page"></div>
-                            
-                            <!-- Login page -->
-                            <div id="page-login" class="page">
-                                <center>
-                                    <h1>Login</h1>
-                                    <hr/>
-                                </center>
-                                <label>Email</label>
-                                <input id="page-login-email" type="text"></input>
-                                <label>Password</label>
-                                <input id="page-login-password" type="password"></input>
-                                <br/>
-                                <button id="page-login-login" class="left">Login</button>
-                                <button id="page-login-register" class="right">Register</button>
-                            </div>
-
-                            <!-- Registration page -->
-                            <div id="page-register" class="page">
-                                <center>
-                                    <h2>New User Registeration</h2>
-                                </center>
-                                <p>
-                                    Fill out the information below to register for the SlowRoll Buffalo app!
-                                    <br/>
-                                </p>
-                                <label>First Name</label>
-                                <input id="page-register-first" type="text"></input>
-                                <label>Last Name</label>
-                                <input id="page-register-last" type="text"></input>
-                                <label>Email</label>
-                                <input id="page-register-email" type="text"></input>
-                                <label>Password</label>
-                                <input id="page-register-password1" type="password"></input>
-                                <label>Password Again</label>
-                                <input id="page-register-password2" type="password"></input>
-                                <br/>
-                                <button id="page-register-cancel" class="left">Cancel</button>
-                                <button id="page-register-submit" class="right">Submit</button>
-                            </div>
-
-                            <!-- Rides List Page -->
-                            <div id="page-rides" class="page page-scrolling">
-                                <h2>Upcoming Rides</h2>
-                                <p>
-                                    Come join your fellow Buffalonians for a great SlowRoll ride!
-                                </p>
-                                <hr/>
-                                <div id="ride-list">
-                                    <center>
-                                    <img class="loading-icon" src="img/cube.gif"></img>
-                                    <h4 class="loading-text">Loading Ride List ...</h4>
-                                    </center>
-                                </div>
-                            </div>
-
-                            <!-- Partners List Page -->
-                            <div id="page-partners" class="page page-scrolling">
-                                <h2>Our Partners</h2>
-                                <p>
-                                    SlowRoll Buffalo is made possible by the following awesome partners!
-                                </p>
-                                <hr/>
-                                <div id="partner-list">
-                                    <center>
-                                    <img class="loading-icon" src="img/cube.gif"></img>
-                                    <h4 class="loading-text">Loading Partners List ...</h4>
-                                    </center>
-                                </div>
-                            </div>
-
-                            <!-- Partner Page -->
-                            <div id="page-partner" class="page">
-                                <!--<h2 id="page-parter-name"></h2>-->
-                                <div id="partner-info">
-                                    <center>
-                                    <img class="loading-icon" src="img/cube.gif"></img>
-                                    <h4 class="loading-text">Loading Partner Info ...</h4>
-                                    </center>
-                                </div>
-                            </div>
-
-                            <!-- Settings Page -->
-                            <div id="page-settings" class="page">
-                            </div>
-
-                            <!-- Logout Page -->
-                            <div id="page-logout" class="page">
-                            </div>
-
-                        </div>
-                    </div>
-                </section>
-
-                </nav>
-        <!--</div>
-        </div>-->
-        
-
-        <!--
-        <div class="row">
-            <div class="columns large-12">
-                <div class="off-canvas-wrap" data-offcanvas>
-                      <div class="inner-wrap">
-
-                        <a class="left-off-canvas-toggle" href="#" >Menu</a>
-
-                        <aside class="left-off-canvas-menu">
-                            <ul>
-                              <li><a href="#">Item 1</a></li>
-                            ...
-                            </ul>
-                        </aside>
-
-                        <p>
-                        Set in the year 0 F.E. ("Foundation Era"), The Psychohistorians opens on Trantor, the capital of the 12,000-year-old Galactic Empire. Though the empire appears stable and powerful, it is slowly decaying in ways that parallel the decline of the Western Roman Empire. Hari Seldon, a mathematician and psychologist, has developed psychohistory, a new field of science and psychology that equates all possibilities in large societies to mathematics, allowing for the prediction of future events.
-                        </p>
-
-                          <a class="exit-off-canvas"></a>
-
-                      </div>
-                </div>
-            </div>
-        </div>
-        -->
-    </div>
-
+    <!--
     <script type="text/javascript" charset="utf-8" src="js/jquery-2.1.4.min.js"></script>
+    -->
+    
+    <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+
     <!--<script src="js/jquery.mobile-1.4.5.js"></script>-->
+    <!--
     <script type="text/javascript" charset="utf-8" src="js/foundation.min.js"></script>
     <script type="text/javascript" charset="utf-8" sec="js/foundation.reveal.min.js"></script>
+    -->
+    
     <script type="text/javascript" charset="utf-8" src="js/jquery.sha256.js"></script>
+    
+    <script type="text/javascript" charset="utf-8" src="js/jquery.reveal.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.dropotron.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.scrollgress.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/skel.min.js"></script>
+    
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+    
     <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script type="text/javascript" charset="utf-8">
         
@@ -197,8 +216,8 @@
             function () {
                 // cordova.plugins.notification.local is now available
 
-                $(document).foundation();
-                $(document).foundation('offcanvas', 'reflow');
+                //$(document).foundation();
+                //$(document).foundation('offcanvas', 'reflow');
 
                 app.initialize();
 
