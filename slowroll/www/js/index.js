@@ -146,7 +146,7 @@ var app = {
 		//
 
 		// handle swip right
-	    $( document ).on( "swipeleft", ".page", function( event ) {
+	    $( document ).on( "swipeleft", function( event ) {
 	    	console.log('swipeleft!, current page = ' + app.current_page);
 	    	//alert('swipeleft');
 	        switch( app.current_page ) {
@@ -170,7 +170,7 @@ var app = {
 	    });
 
 	    // handle swip right
-	    $( document ).on( "swiperight", ".page", function( event ) {
+	    $( document ).on( "swiperight", function( event ) {
 	    	console.log('swiperight!, current page = ' + app.current_page);
 	    	//alert('swipeleft');
 	        switch( app.current_page ) {
@@ -195,6 +195,33 @@ var app = {
 	        		break;
 	        };
 	    });
+
+	    // handle swip down
+	    $( document ).on( "swipedown", function( event ) {
+	    	console.log('swipedown!, current page = ' + app.current_page);
+	    	//alert('swipedown');
+	        switch( app.current_page ) {
+	        	case 'login':
+	        		break;
+	        	case 'register':
+	        		break;
+	        	case 'rides':
+	        		$('#rides-list').html('<center id="loading-gears"><img class="loading-icon" src="img/gears.svg"></img></center>');
+	        		app.get_rides();
+	        		break;
+	        	case 'partners':
+	        		app.get_partners();
+	        		break;
+	        	case 'partner':
+	        		break;
+	        	case 'settings':
+	        		break;
+	        	case '':
+	        	default:
+	        		break;
+	        };
+	    });
+
 
 		//
 		// Login Page
@@ -650,7 +677,7 @@ var app = {
 		//	$('#page-' + page).show(300);
 
 		//$('#page-' + page).animate({width:'toggle'},350);
-		$('#page-' + page).show(100);
+		$('#page-' + page).show();
 
 		$('#loading-gears').hide();
 
