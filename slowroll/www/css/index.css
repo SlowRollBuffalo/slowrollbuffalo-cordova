@@ -14,20 +14,12 @@ body {
 }
 
 button {
-    /*background: #4c3180;*/
-    /*background: #008CBA;*/
     background: rgba(48, 106, 189, 1);
     border: none;
-    /*padding: 1rem;*/
-    /*padding-top: 0.875rem;
-    padding-right: 1.75rem;
-    padding-bottom: 0.9375rem;
-    padding-left: 1.75rem;*/
     padding-top: 1rem;
     padding-bottom: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    /*border-radius: 6px;*/
     cursor: pointer;
     color: #EEE;
 }
@@ -37,11 +29,12 @@ h1, h2, h3, h4, h5, h6 {
     color: rgba(242, 48, 12, 1);
 }
 
+/*
 h4 {
     padding-bottom: .25rem;
-}
+}*/
 
-p {
+/*p {
     display: inline-block;
     color: #777;
     margin: .5em 0 .25em 0;
@@ -50,47 +43,44 @@ p {
     line-height: 1.5em;
     font-style: normal;
     font-weight: 300;
-}
+}*/
 
-label {
+/*label {
     color: #646464;
     display: block;
     font-size: 0.9em;
     font-weight: 300;
     margin: 0 0 1em 0;
-}
+}*/
 
-i {
+/*i {
     padding-right: .75rem;
-}
+}*/
 
 a {
     border-bottom: none;
 }
 
-#site-wrapper {
-    overflow-y: hidden;
-    height: 100%;
+/*
+ * JQuery Mobile Overrides
+ */
+
+.ui-focus {
+    box-shadow: none !important;
 }
 
-/*
-.main-section {
-    overflow-y: hidden;
-    height: 100%;
+.ui-page-theme-a {
+    box-shadow: none !important;
 }
-*/
+
+.ui-btn {
+    margin-top: .3rem;
+}
+
 
 /*
-footer {
-    position: fixed;
-    left:0px;
-    bottom:0px;
-    height:30px;
-    width: 100%;
-    margin-bottom: 3rem;
-    text-align: center;
-}
-*/
+ * Helper Classes
+ */
 
 .right {
     float: right;
@@ -110,6 +100,68 @@ footer {
 
 .white {
     color: rgba(254, 254, 254, 1);  
+}
+
+/*
+ * Top bar
+ */
+
+.header-nav-wrapper {
+    display: none;
+}
+
+.top-bar-area {
+    display: none;
+    /* height: 4rem; */
+    padding-left: 1.5rem;
+    /*background: #FAFAFA;*/
+    background: #EEE !important;
+    border-bottom: 1px solid #AAAAAA;
+    box-shadow: 0 4px 2px -2px #DDDDDD;
+}
+
+.top-menu-wrapper {
+    height: 100%;
+    padding-top: 1rem;
+    float: right;
+}
+
+.gear-menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background-color: #FAFAFA;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10000000;
+}
+
+.gear-menu-dropdown a {
+    color: black;
+    /*padding: .5rem .75rem;*/
+    padding-left: 1rem;
+    padding-bottom: 0.5rem;
+    text-decoration: none;
+    display: block;
+    font-weight: 400 !important;
+    margin: 1rem;
+}
+
+/*
+ * Pages - General
+ */
+
+.pages {
+    display: none;
+}
+
+.page {
+    display: none;
+}
+
+.pages i {
+    padding-right: .75rem;
 }
 
 /*
@@ -146,11 +198,12 @@ footer {
  */
 
 #page-login {
-    overflow-y: hidden;
+    padding: 3rem;
 }
 
 #page-login h1 {
     /*margin-top: 4rem;*/
+    font-size: 200% !important;
 }
 
 #page-login h2 {
@@ -161,74 +214,28 @@ footer {
 
 .page-login-register-text {
     margin-top: 4rem;
+    text-align: center;
+    width: 100%;
+}
+
+.page-login-register-text b {
+    color: rgba(48, 106, 189, 1);
+}
+
+#page-login-register {
+    cursor: pointer;
 }
 
 /*
- * Top bar
+ * Register Screen
  */
 
-.top-bar-area {
-    /* height: 4rem; */
-    padding-left: 1.5rem;
-    /*background: #FAFAFA;*/
-    background: #EEE !important;
-    border-bottom: 1px solid #AAAAAA;
-    box-shadow: 0 4px 2px -2px #DDDDDD;
+#page-register {
+    text-align: center;
 }
 
-.top-bar-area h2 {
-    margin: 0;
-}
-
-.top-logo {
-    /*float: left;
-    height: 100%;*/
-    padding-top: 0.75rem;
-    color: rgba(242, 48, 12, 1);
-    /*vertical-align: middle;
-    margin-top:0px;
-    margin-bottom:0px;*/
-}
-
-.top-menu-wrapper {
-    height: 100%;
-    padding-top: 1rem;
-    float: right;
-}
-
-.dots-menu-icon {
-    /*padding: 1rem;*/
-    padding-top: 0rem;
-    padding-bottom: 0.75rem;
-    padding-right: 2rem;
-    vertical-align: middle;
-}
-
-.dots-menu-dropdown {
-    display: none;
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    background-color: #FAFAFA;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1000000;
-}
-
-.dots-menu-dropdown a {
-    color: black;
-    padding: .5rem .75rem;
-    text-decoration: none;
-    display: block;
-    font-weight: 400 !important;
-}
-
-.show-dots-menu-dropdown {
-    display:block;
-}
-
-.menu-link {
-    margin: 1rem;
+.page-register-contents {
+    padding: 3rem;
 }
 
 #legal-modal-contents {
@@ -245,14 +252,27 @@ footer {
     color: rgba(255, 0, 0, .8);
 }
 
-.page {
-    height: 100%;
-    display: none;
+#legal-modal-accept {
+    background: rgba(0,255,0,.2);
 }
 
-.page-scrolling {
-    overflow-y: scroll;
-    overflow-x: hidden;
+#legal-modal-cancel {
+    background: rgba(255,0,0,.2);
+}
+
+
+
+/*
+ * Rides Page
+ */
+
+#page-rides h2 {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+#page-rides p {
+    text-align: center;   
 }
 
 #ride-list {
@@ -265,6 +285,20 @@ footer {
     border-bottom: 1px solid #AAA;
 }
 
+
+/*
+ * Parters Page
+ */
+
+#page-partners h2 {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+#page-partners p {
+    text-align: center;   
+}
+
 #partner-list {
     text-align: left !important;
 }
@@ -274,19 +308,74 @@ footer {
     border-bottom: 1px solid #AAA;
 }
 
-/*.partner-entry i {
-    padding-right: .75rem;
-}*/
-
-.span-buffer {
-    padding-left: 1.65rem;
-}
-
 .more-partner-info i {
     padding-right: 0px;
 }
 
-#page-settings p {
-    color: rgba(48, 106, 189, 1);
-    padding-bottom: 2rem;
+/*
+ * Partner Page
+ */
+
+#page-partner {
+    padding-top: 1rem;
 }
+
+#partner-info-wrapper {
+    text-align: left
+}
+
+#partner-info {
+    text-align: center;
+}
+
+#partner-info-wrapper b {
+    padding-left: 1rem;
+}
+
+#partner-description {
+    padding: 2rem;
+}
+
+/*
+ * Settings Page
+ */
+
+.page-settings-contents {
+    text-align: center;
+    padding: 1rem;
+}
+
+.page-settings-contents p {
+    color: rgba(48, 106, 189, 1);
+    /*padding-bottom: 1rem;*/
+}
+
+
+
+
+
+/*.partner-entry i {
+    padding-right: .75rem;
+}*/
+
+/*
+.span-buffer {
+    padding-left: 1.65rem;
+}
+*/
+
+
+
+/*
+.page {
+    height: 100%;
+    display: none;
+}
+*/
+
+/*
+.page-scrolling {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+*/

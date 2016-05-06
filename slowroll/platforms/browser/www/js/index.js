@@ -41,8 +41,12 @@ var app = {
 				app.login(
 					credentials.email, 
 					credentials.password,
-					function() { app.display_page('rides'); },
-					function() { app.display_page('login', truue); }
+					function() {
+						app.display_page('rides');
+					},
+					function() {
+						app.display_page('login');
+					}
 				);
 			}
 			else {
@@ -57,12 +61,16 @@ var app = {
         // hide all pags to start
         //$('.page').hide();
 
-        // after 2 seconds, hide the splash screen
+        /*
+        // after a delay, hide the splash screen
         setTimeout( function() {
-        	$('#splash-screen').fadeOut();
+        	//$('#splash-screen').fadeOut();
+        	$('#splash-screen').hide();
         	// show the app!
-        	$('#pages').fadeIn();
+        	//$('#pages').fadeIn();
+        	$('#pages').show();
         }, 750 );
+		*/
 
         app.device = device.cordova;
 
@@ -94,9 +102,12 @@ var app = {
 						app.display_page('login');
 						break;
 					case 'partners':
-						app.display_page('rides');
-						break;
 					case 'rides':
+
+						// this will have to do for now ...
+						navigator.app.exitApp();
+						
+						//app.display_page('rides');
 						//
 						// this gets fired too early, and the page isn't fully displayed yet.
 						// need to figure out how to go about doing that.
@@ -117,8 +128,9 @@ var app = {
 					    );
 					    */
 						break;
+					case 'parter':
 					case 'settings':
-						app.display_page('rides');
+						app.display_page(app.previous_page);
 						break;
 					default:
 						app.display_page('rides');
@@ -128,6 +140,61 @@ var app = {
 			},
 			false
 		);
+
+		//
+		// Swiping
+		//
+
+		// handle swip right
+	    $( document ).on( "swipeleft", ".page", function( event ) {
+	    	console.log('swipeleft!, current page = ' + app.current_page);
+	    	//alert('swipeleft');
+	        switch( app.current_page ) {
+	        	case 'login':
+	        		break;
+	        	case 'register':
+	        		break;
+	        	case 'rides':
+	        		app.display_page('partners');
+	        		break;
+	        	case 'partners':
+	        		break;
+	        	case 'partner':
+	        		break;
+	        	case 'settings':
+	        		break;
+	        	case '':
+	        	default:
+	        		break;
+	        };
+	    });
+
+	    // handle swip right
+	    $( document ).on( "swiperight", ".page", function( event ) {
+	    	console.log('swiperight!, current page = ' + app.current_page);
+	    	//alert('swipeleft');
+	        switch( app.current_page ) {
+	        	case 'login':
+	        		break;
+	        	case 'register':
+	        		app.display_page('login');
+	        		break;
+	        	case 'rides':
+	        		break;
+	        	case 'partners':
+	        		app.display_page('rides');
+	        		break;
+	        	case 'partner':
+	        		app.display_page('partners');
+	        		break;
+	        	case 'settings':
+	        		app.display_page(app.previous_page);
+	        		break;
+	        	case '':
+	        	default:
+	        		break;
+	        };
+	    });
 
 		//
 		// Login Page
@@ -224,7 +291,8 @@ var app = {
 				}),
 				success: function(resp) {
 					console.log(resp);
-					$('#legal-modal').foundation('reveal', 'close');
+					//$('#legal-modal').foundation('reveal', 'close');
+					$('#legal-modal').trigger('reveal:close');
 					app.check_login(
 						function() {
 							app.display_notification('Registration successful!');
@@ -236,28 +304,39 @@ var app = {
 				error: function(resp) {
 					// todo: figure out what the error was, and what
 					//       we need to do.
-					alert("Looks like you're already registered.  Try logging in with your email address and password.");
+					alert("Looks like that email address is already registered.  Try logging in with that email address and password.");
+					$('#legal-modal').trigger('reveal:close');
+					app.display_page('login');
 				}
 				
 			});
 		});
 
 		$('#legal-modal-cancel').on('click', function() {
-			$('#legal-modal').foundation('reveal', 'close');
+			//$('#legal-modal').foundation('reveal', 'close');
+			$('#legal-modal').trigger('reveal:close');
 		});
 
 		//
 		// Nav Menu
 		//
-		$('#dots-menu').on('click', function() {
+		$('#gear-menu').on('click', function() {
 			console.log('dots menu toggled.');
-			$('#dots-menu-dropdown').toggle();
+			$('#gear-menu-dropdown').toggle();
 		});
 
 		$(document).click(function (event) {
 			console.log(event);
-			if ( event.target.id != 'dots-menu-icon' )
-				$('#dots-menu-dropdown').hide();
+			if ( event.target.id != 'gear-menu' )
+				$('#gear-menu-dropdown').hide();
+		});
+
+		//
+		// Partner Page
+		//
+
+		$('#page-partner-back').on('click', function() {
+			app.display_page('partners');
 		});
 
 		//
@@ -291,15 +370,38 @@ var app = {
 			app.display_page('login');
 		});
 
+		//
+		// Settings Page
+		//
+
+		$('#page-settings-back').on('click', function() {
+			app.display_page(app.previous_page);
+		});
+
 		// on "first boot" we'll set allow partner notications to true
 		if ( app._load_object('allow-partner-notifications') == null ) {
 			app._save_object('allow-partner-notifications', {allow: true});
-			var checked = $('#textbox1').val($(this).is(':checked'));
 		}
 		$('#page-settings-allow-partner-notifications').change(function() {
+
+			// allow partner notifications
 			var checked = $('#page-settings-allow-partner-notifications').is(':checked');
 			app._save_object('allow-partner-notifications', {allow: checked});
+
 			console.log('saved "allow-partner-notifications" as ', checked);
+		});
+
+		// on "first boot" we'll set allow new ride notications to true
+		if ( app._load_object('allow-new-ride-notifications') == null ) {
+			app._save_object('allow-new-ride-notifications', {allow: true});
+		}
+		$('#page-settings-allow-new-ride-notifications').change(function() {
+
+			// allow new ride notifications
+			var checked = $('#page-settings-allow-new-ride-notifications').is(':checked');
+			app._save_object('allow-new-ride-notifications', {allow: checked});
+
+			console.log('saved "allow-new-ride-notifications" as ', checked);
 		});
 
 	},
@@ -349,7 +451,6 @@ var app = {
     			alert(notification.text);
 			}
 		);
-
 	},
 
 	login: function(email, password, success, failure) {
@@ -464,59 +565,97 @@ var app = {
         });
 	},
 
+	previous_page: '',
 	current_page: '',
 	exit_attempt_count: 0, // this is a future hack ...
 
 	display_page: function(page, immediate) {
+
 		console.log('display_page(), page = "' + page + '"');
+		app.previous_page = app.current_page;
 		app.current_page = page;
 		if ( immediate == true )
 			$('.page').hide();
 		else
-			$('.page').hide(300);
+			$('.page').hide();
 		switch(page) {
 			case 'splash':
-				$('#top-bar-area').hide();
+				//$('#top-bar-area').hide();
+				$('.header-nav-wrapper').hide();
 				//$('.top-bar').hide();
 				//$('.tab-bar').hide();
 				break;
 			case 'login':
-				$('#top-bar-area').hide();
+				//$('#top-bar-area').hide();
+				$('.header-nav-wrapper').hide();
 				//$('#menu-wrapper').hide();
 				break;
 			case 'register':
+				$('.header-nav-wrapper').hide();
 				//$('.top-bar').show();
 				//$('.tab-bar').hide();
-				$('#menu-wrapper').hide();
+				//$('#menu-wrapper').hide();
 				break;
+			case 'partner':
+				$('.header-nav-wrapper').hide();
+				break;
+			case 'settings':
+				$('.header-nav-wrapper').hide();
+				break;
+			case '':
 			default:
+				console.log('app.display_page(), showing header/nav');
 				//$('.top-bar').hide();
 				//$('.tab-bar').show();
-				$('#top-bar-area').show();
-				$('#menu-wrapper').show();
+				//$('#top-bar-area').show();
+				//$('#menu-wrapper').show();
+				$('.header-nav-wrapper').show();
 				break;
 		};
 
+		$('#nav-link-rides').removeClass('ui-btn-active');
+		$('#nav-link-partners').removeClass('ui-btn-active');
+
 		switch(page) {
+			case '':
 			case 'rides':
+				$('#nav-link-rides').addClass('ui-btn-active');
 				app.get_rides();
 				break;
 			case 'partners':
+				$('#nav-link-partners').addClass('ui-btn-active');
 				app.get_partners();
 				break;
+			case 'partner':
+				//$('#nav-link-partners').addClass('ui-btn-active');
+				break;
 			case 'settings':
+
+				var allow = app._load_object('allow-new-ride-notifications')['allow'];
+				$('#page-settings-allow-new-ride-notifications').prop('checked', allow);
+				console.log('allow-new-ride-notifications = ' + allow);
+
 				var allow = app._load_object('allow-partner-notifications')['allow'];
-				console.log('allow = ' + allow);
 				$('#page-settings-allow-partner-notifications').prop('checked', allow);
+				console.log('allow-partner-notifications = ' + allow);
+
 				break;
 			default:
 				break;
 		};
 
-		if ( immediate == true )
-			$('#page-' + page).show();
-		else
-			$('#page-' + page).show(300);
+		//if ( immediate == true )
+		//	$('#page-' + page).show();
+		//else
+		//	$('#page-' + page).show(300);
+
+		//$('#page-' + page).animate({width:'toggle'},350);
+		$('#page-' + page).show(100);
+
+		$('#loading-gears').hide();
+
+		$('.pages').show();
+
 	},
 
 	/****************************************************************
@@ -807,14 +946,19 @@ var app = {
 		console.log('load_parter(), id = ' + app.partner.id);
 		console.log(app.partner);
 		var html = '';
+		html += '<div id="partner-info">';
 		html += '<h2 class="">' + app.partner.name + '</h2>'
 		//html += '<br/>';
         //html += '<h4>' + app.partner.level + '</h4><br/>';
         html += '<span><i class="fa fa-map-marker"></i>' + app.partner.address_0 + '</span><br/>';
         html += '<span class="span-buffer">' + app.partner.city + ', ' + app.partner.zipcode + '</span>';
+        html += '</div>';
         html += '<hr/>';
+        html += '<b>About ' + app.partner.name + ':</b>';
+        html += '<div id="partner-description">';
 		html += app.partner.description;
-		$('#partner-info').html(html);
+		html += '</div>';
+		$('#partner-info-wrapper').html(html);
 	},
 
 	/***************************************************************

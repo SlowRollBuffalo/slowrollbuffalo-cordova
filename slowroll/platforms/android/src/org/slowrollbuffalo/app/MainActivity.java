@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.slowrollbuffalo.app;
+package org.slowrollbuffalo.app;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

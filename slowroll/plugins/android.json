@@ -24,6 +24,9 @@
         },
         "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "com.slowrollbuffalo.app"
+        },
+        "com.telerik.plugins.nativepagetransitions": {
+            "PACKAGE_NAME": "org.slowrollbuffalo.app"
         }
     },
     "dependent_plugins": {
