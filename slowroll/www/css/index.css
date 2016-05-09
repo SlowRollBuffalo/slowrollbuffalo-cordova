@@ -315,6 +315,34 @@ a {
     border-bottom: 1px solid #AAA;
 }
 
+.more-ride-info i {
+    padding-right: 0px;
+}
+
+/*
+ * Ride Page
+ */
+
+#ride-info-wrapper {
+    text-align: left
+}
+
+#ride-info {
+    text-align: center;
+}
+
+#ride-info-wrapper b {
+    padding-left: 1rem;
+}
+
+#ride-description {
+    padding: 2rem;
+}
+
+.checked-in {
+    background-color: rgba(80,255,80,.6) !important;
+    color: #222;
+}
 
 /*
  * Parters Page

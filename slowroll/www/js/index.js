@@ -1,6 +1,6 @@
 
-var base_url = 'http://slowrollbuffalo.mycodespace.net';
-//var base_url = 'http://localhost:6577';
+//var base_url = 'http://slowrollbuffalo.mycodespace.net';
+var base_url = 'http://localhost:6577';
 
 // TODO: need to generate the correct platform based on what
 //       platform we're actually on
@@ -414,6 +414,15 @@ var app = {
 		});
 
 		//
+		// Ride Page
+		//
+
+		$('#page-ride-back').on('click', function() {
+			app.display_page('rides');
+		});
+		
+
+		//
 		// Navigation Links
 		//
 
@@ -676,6 +685,9 @@ var app = {
 				//$('.tab-bar').hide();
 				//$('#menu-wrapper').hide();
 				break;
+			case 'ride':
+				$('.header-nav-wrapper').hide();
+				break;
 			case 'partner':
 				$('.header-nav-wrapper').hide();
 				break;
@@ -702,12 +714,15 @@ var app = {
 				$('#nav-link-rides').addClass('ui-btn-active');
 				app.get_rides();
 				break;
+			case 'ride':
+				// none
+				break;
 			case 'partners':
 				$('#nav-link-partners').addClass('ui-btn-active');
 				app.get_partners();
 				break;
 			case 'partner':
-				//$('#nav-link-partners').addClass('ui-btn-active');
+				// none
 				break;
 			case 'settings':
 
@@ -739,6 +754,8 @@ var app = {
 		//	$('#page-' + page).show();
 		//else
 		//	$('#page-' + page).show(300);
+
+		console.log('app,display_page(), showing page: ' + page);
 
 		//$('#page-' + page).animate({width:'toggle'},350);
 		$('#page-' + page).show();
@@ -884,7 +901,7 @@ var app = {
 		var rides = app._load_object('rides');
 
 		console.log('rides:');
-		console.log(app.rides);
+		console.log(rides);
 
 		var html = '';
 		for(var i=0; i<rides.length; i++) {
@@ -896,11 +913,11 @@ var app = {
 			html += '<div class="ride-entry">';
 
 			// check if we're within 1 hour before or after the ride starts
-            if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
-            	// display the checkin button
-            	html += '<button id = "' + ride.id + '" class="right">Check In!</button>';
-            }
-            
+            //if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
+            //	// display the checkin button
+            //	html += '<button id = "' + ride.id + '" class="right">Check In!</button>';
+            //}
+            html += '    <button id="' + ride.id + '" class="right more-ride-info"><i class="fa fa-info"></i></button>';
             html += '    <span class=""><b>' + ride.title + '</b></span><br>';
             html += '    <span><i class="fa fa-calendar-o"></i>' + app.render_datetime(ride.ride_datetime) + '</span><br>';
             html += '    <span><i class="fa fa-map-marker"></i>' + ride.address_0 + '</span></br>';
@@ -914,6 +931,32 @@ var app = {
 		$('#ride-list').hide();
 		$('#ride-list').html(html);
 
+		// the elements need to be in the DOM before we can apply the click event hooks
+		for( var i=0; i<rides.length; i++) {
+			
+        	var ride = rides[i];
+
+			console.log('load_rides(), registering click event for "' + ride.ride.id + '"');
+			console.log('load_rides, ride:', ride.ride);
+
+        	$('#' + ride.ride.id).on('click', function() {
+        		console.log('click!');
+        		app.display_page('ride');
+        		var ride_id = this.id;
+        		//app.get_partners(function(resp) {
+        			for(var j=0;j<app.rides.length;j++) {
+        				if ( app.rides[j].ride.id == ride_id ) {
+        					app.ride = app.rides[j];
+        					app.load_ride();
+        					break;
+        				}
+        			}
+        		//});
+        	});
+		}
+
+
+		/*
 		// can't set the click call backs until the elements are in the DOM
 		for(var i=0; i<rides.length; i++) {
 			var ride = rides[i].ride;
@@ -933,6 +976,7 @@ var app = {
 				});
 			}
 		}
+		*/
 
 		$('#ride-list').show();
 
@@ -940,6 +984,89 @@ var app = {
 
 	},
 
+	/****************************************************************
+	 * ride
+	 *
+	 * This is the current ride than the user has requested to get
+	 * more information about
+	 *
+	 ****************************************************************/
+	ride: {},
+
+	/****************************************************************
+	 * load_ride()
+	 *
+	 * This updats the ride info in the app UI.
+	 *
+	 ****************************************************************/
+	load_ride: function() {
+		console.log('load_ride(), id = ' + app.ride.ride.id, 'ride: ', app.ride);
+		var html = '';
+		html += '<div id="ride-info">';
+		html += '<h2 class="">' + app.ride.ride.title + '</h2>'
+		
+		//html += '<br/>';
+        //html += '<h4>' + app.ride.level + '</h4><br/>';
+        //html += '<span><i class="fa fa-map-marker"></i>' + app.ride.address_0 + '</span><br/>';
+        //html += '<span class="span-buffer">' + app.ride.city + ', ' + app.ride.zipcode + '</span>';
+        //html += '</div>';
+        
+        html += '<span class=""><b>' + app.ride.ride.title + '</b></span><br>';
+        html += '<span><i class="fa fa-calendar-o"></i>' + app.render_datetime(app.ride.ride.ride_datetime) + '</span><br>';
+        html += '<span><i class="fa fa-map-marker"></i>' + app.ride.ride.address_0 + '</span></br>';
+        html += '<span class="span-buffer">' + app.ride.ride.city + ', ' + app.ride.ride.zipcode + '</span><br/>';
+      
+      	var now = new Date().getTime();  
+		var start_time = new Date(app.ride.ride.ride_datetime).getTime();
+
+		console.log('load_ride(), start_time:', start_time);
+
+		console.log('load_ride(), app.ride.ride.checked_in = ', app.ride.checked_in);
+
+		if ( app.ride.checked_in > 0 ) {
+
+			html += '<br><button class="checked-in">You\'re Checked In!</button>';
+
+		} else {
+
+			//if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
+            	// display the checkin button
+            	html += '<br><button id = "' + app.ride.ride.id + '-checkin" class="">Check In!</button>';
+			//}
+		}
+
+		html += '</div>';
+        html += '<hr/>';
+        
+        html += '<b>About</b>';
+        html += '<div id="ride-description">';
+		html += app.ride.ride.description;
+		html += '</div>';
+		$('#ride-info-wrapper').html(html);
+
+		if ( app.ride.checked_in == 0 ) {
+
+			// register click after html has been rendered to DOM
+			$('#' + app.ride.ride.id + '-checkin').on('click', function() {
+				console.log('load_ride(), checkin button clicked!  checking into ride ...');
+				app.checkin(
+					app.ride.ride.id,
+					// success
+					function() {
+						// todo: tell the user they checked in successfully.
+						alert("You've been checked into the ride! Happy Slow Rolling!");
+						$('#' + app.ride.ride.id + '-checkin').off('click');
+						$('#' + app.ride.ride.id + '-checkin').html("You're Checked In!");
+						$('#' + app.ride.ride.id + '-checkin').addClass('checked-in');
+						app.ride.checked_in++;
+						//$('#' + ride.id).html('Checked In');
+					}
+					// note: no error.  error will redirect to login screen
+				);
+			});
+
+		}
+	},
 
 
 	/****************************************************************
