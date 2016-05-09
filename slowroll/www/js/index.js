@@ -813,6 +813,22 @@ var app = {
 	},
 
 
+	render_datetime: function(datetime) {
+		var str_datetime;
+
+		// comes in YYYY-MM-DD HH:MM:SS with HH being 24 hour format
+
+		var year = datetime.split(' ')[0].split('-')[0];
+		var month = datetime.split(' ')[0].split('-')[1];
+		var day =datetime.split(' ')[0].split('-')[2];
+		var hour = datetime.split(' ')[1].split(':')[0];
+		var minute = datetime.split(' ')[1].split(':')[1];
+		var am_pm = ((parseInt(hour) > 11) ? 'PM' : 'AM');
+
+		str_datetime = month + '/' + day + '/' + year + ' ' + hour + ':' + minute + ' ' + am_pm;
+
+		return str_datetime;
+	},
 
 	/****************************************************************
 	 * rides
@@ -886,7 +902,7 @@ var app = {
             }
             
             html += '    <span class=""><b>' + ride.title + '</b></span><br>';
-            html += '    <span><i class="fa fa-calendar-o"></i>' + ride.ride_datetime + '</span><br>';
+            html += '    <span><i class="fa fa-calendar-o"></i>' + app.render_datetime(ride.ride_datetime) + '</span><br>';
             html += '    <span><i class="fa fa-map-marker"></i>' + ride.address_0 + '</span></br>';
             html += '    <span class="span-buffer">' + ride.city + ', ' + ride.zipcode + '</span><br/>';
             
