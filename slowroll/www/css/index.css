@@ -268,6 +268,11 @@ a {
     background: rgba(255,0,0,.2);
 }
 
+.bad-input {
+    border: 2px solid #e89980 !important;
+    background: rgba(255, 0, 0, .3) !important;
+}
+
 /*
  * Refresh overlay
  */

@@ -267,12 +267,42 @@ var app = {
 			var password1 = $.sha256($('#page-register-password1').val());
 			var password2 = $.sha256($('#page-register-password2').val());
 
+			$('#page-register-first').removeClass('bad-input');
+			$('#page-register-last').removeClass('bad-input');
+			$('#page-register-email').removeClass('bad-input');
+			$('#page-register-password1').removeClass('bad-input');
+			$('#page-register-password2').removeClass('bad-input');
+
 			if ( password1 != password2 ) {
 				alert("Herm, looks like you didn't type the same password both times.  Try again.");
 				return;
 			}
 
-			if ( first == '' || last == '' || !validateEmail(email) || password1 == '' || password2 == '') {
+			var bad_input = false;
+
+			if ( first == '' ) {
+				$('#page-register-first').addClass('bad-input');
+				bad_input = true;
+			}
+
+			if ( last == '' ) {
+				$('#page-register-last').addClass('bad-input');
+				bad_input = true;
+			}
+
+			if ( !validateEmail(email) ) {
+				$('#page-register-email').addClass('bad-input');
+				bad_input = true;
+			}
+
+			if ( $('#page-register-password1').val() == '' || $('#page-register-password2').val() == '' ) {
+				$('#page-register-password1').addClass('bad-input');
+				$('#page-register-password2').addClass('bad-input');
+				bad_input = true;
+			}
+
+			//if ( first == '' || last == '' || !validateEmail(email) || password1 == '' || password2 == '') {
+			if ( bad_input ) {
 				alert("Yikes! Looks like you're missing some info to register.  Please try again.");
 				return;
 			}
