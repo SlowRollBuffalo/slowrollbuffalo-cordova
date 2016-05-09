@@ -196,6 +196,7 @@ var app = {
 	        };
 	    });
 
+	    /*
 	    // handle swip down
 	    $( document ).on( "swipedown", function( event ) {
 	    	console.log('swipedown!, current page = ' + app.current_page);
@@ -221,7 +222,7 @@ var app = {
 	        		break;
 	        };
 	    });
-
+		*/
 
 		//
 		// Login Page
@@ -348,9 +349,25 @@ var app = {
 		// Nav Menu
 		//
 		$('#gear-menu').on('click', function() {
-			console.log('dots menu toggled.');
+			console.log('gears menu toggled.');
 			$('#gear-menu-dropdown').toggle();
 		});
+
+		$('#refresh-menu').on('click', function() {
+			console.log('refresh menu toggled.');
+			$('#refresh-icon-overlay').show();
+			switch(app.current_page) {
+				case 'rides':
+					app.get_rides();
+					break;
+				case 'partners':
+					app.get_partners();
+					break;
+				case '':
+				default:
+					break;
+			}
+		});		
 
 		$(document).click(function (event) {
 			console.log(event);
@@ -408,6 +425,9 @@ var app = {
 		// on "first boot" we'll set allow partner notications to true
 		if ( app._load_object('allow-partner-notifications') == null ) {
 			app._save_object('allow-partner-notifications', {allow: true});
+			$('#page-settings-allow-new-ride-notifications').prop('data-cacheval', false);
+			$('#page-settings-allow-new-ride-notifications-label').addClass('ui-checkbox-on');
+			$('#page-settings-allow-new-ride-notifications-label').removelass('ui-checkbox-off');
 		}
 		$('#page-settings-allow-partner-notifications').change(function() {
 
@@ -421,6 +441,9 @@ var app = {
 		// on "first boot" we'll set allow new ride notications to true
 		if ( app._load_object('allow-new-ride-notifications') == null ) {
 			app._save_object('allow-new-ride-notifications', {allow: true});
+			$('#page-settings-allow-new-ride-notifications').prop('data-cacheval', false);
+			$('#page-settings-allow-new-ride-notifications-label').addClass('ui-checkbox-on');
+			$('#page-settings-allow-new-ride-notifications-label').removeClass('ui-checkbox-off');
 		}
 		$('#page-settings-allow-new-ride-notifications').change(function() {
 
@@ -659,12 +682,23 @@ var app = {
 			case 'settings':
 
 				var allow = app._load_object('allow-new-ride-notifications')['allow'];
-				$('#page-settings-allow-new-ride-notifications').prop('checked', allow);
 				console.log('allow-new-ride-notifications = ' + allow);
+				$('#page-settings-allow-new-ride-notifications').prop('checked', allow);
+				$('#page-settings-allow-new-ride-notifications').prop('data-cacheval', !allow);
+				var str_allow_add = ((allow == true) ? 'on' : 'off' );
+				var str_allow_remove = ((allow == true) ? 'off' : 'on' );
+				$('#page-settings-allow-new-ride-notifications-label').addClass('ui-checkbox-' + str_allow_add);
+				$('#page-settings-allow-new-ride-notifications-label').removeClass('ui-checkbox-' + str_allow_remove);
 
 				var allow = app._load_object('allow-partner-notifications')['allow'];
-				$('#page-settings-allow-partner-notifications').prop('checked', allow);
 				console.log('allow-partner-notifications = ' + allow);
+				$('#page-settings-allow-partner-notifications').prop('checked', allow);
+				$('#page-settings-allow-partner-notifications').prop('data-cacheval', !allow);
+				var str_allow_add = ((allow == true) ? 'on' : 'off' );
+				var str_allow_remove = ((allow == true) ? 'off' : 'on' );
+				$('#page-settings-allow-partner-notifications-label').addClass('ui-checkbox-' + str_allow_add);
+				$('#page-settings-allow-partner-notifications-label').removeClass('ui-checkbox-' + str_allow_remove);
+				
 
 				break;
 			default:
@@ -831,6 +865,7 @@ var app = {
 		}
 
 		// set the elements in the DOM
+		$('#ride-list').hide();
 		$('#ride-list').html(html);
 
 		// can't set the click call backs until the elements are in the DOM
@@ -852,6 +887,10 @@ var app = {
 				});
 			}
 		}
+
+		$('#ride-list').show();
+
+		$('#refresh-icon-overlay').hide();
 
 	},
 
@@ -952,6 +991,8 @@ var app = {
 
 		// show the div
 		$('#partner-list').show();
+
+		$('#refresh-icon-overlay').hide();
 	},
 
 	/****************************************************************

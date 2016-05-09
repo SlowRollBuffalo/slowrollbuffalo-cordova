@@ -196,6 +196,7 @@ var app = {
 	        };
 	    });
 
+	    /*
 	    // handle swip down
 	    $( document ).on( "swipedown", function( event ) {
 	    	console.log('swipedown!, current page = ' + app.current_page);
@@ -221,7 +222,7 @@ var app = {
 	        		break;
 	        };
 	    });
-
+		*/
 
 		//
 		// Login Page
