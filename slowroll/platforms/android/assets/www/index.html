@@ -41,10 +41,17 @@
         <a id="nav-link-logout">Logout</a>
     </div>
 
+    <div id="refresh-icon-overlay" style="display: none;">
+        <img src="img/gears.svg"></img>
+    </div>
+
     <div class="header-nav-wrapper">
         <div data-role="header" style="overflow:hidden;">
         <h1>Slow Roll Buffalo</h1>
-            <a id="gear-menu" class="ui-btn-right"><i class="fa fa-ellipsis-v"></i></a>
+            <div data-type="horizontal" class="ui-btn-right" >
+                <a id="refresh-menu" data-role="button" ><i class="fa fa-refresh"></i></a>
+                <a id="gear-menu" data-role="button" ><i class="fa fa-gear"></i></a>
+            </div>
             <div data-role="navbar">
                 <ul>
                     <li><a id="nav-link-rides">Rides</a></li>
@@ -154,6 +161,23 @@
         </div>
         <!--</section>-->
 
+        <!-- Ride Page -->
+        <div id="page-ride" class="page">
+        <!--<section id="page-ride" class="page box special features">-->
+            <!--<h2 id="page-parter-name"></h2>-->
+            <div data-role="header" style="overflow:hidden;">
+                <h1>Slow Roll Buffalo</h1>
+                <a id="page-ride-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+            <div id="ride-info-wrapper">
+                <center>
+                    <img class="loading-icon" src="img/gears.svg"></img>
+                    <h4 class="loading-text">Loading ...</h4>
+                </center>
+            </div>
+        </div>
+        <!--</section>-->
+
         <!-- Partners List Page -->
         <div id="page-partners" class="page page-scrolling">
         <!--<section id="page-partners" class="page box special features">-->
@@ -177,7 +201,7 @@
             <!--<h2 id="page-parter-name"></h2>-->
             <div data-role="header" style="overflow:hidden;">
                 <h1>Slow Roll Buffalo</h1>
-                <a id="page-partner-back" data-icon="back">Back</a>
+                <a id="page-partner-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
             </div>
             <div id="partner-info-wrapper">
                 <center>
@@ -193,7 +217,7 @@
         <!--<section id="page-settings" class="page box special features">-->
             <div data-role="header" style="overflow:hidden;">
                 <h1>Slow Roll Buffalo</h1>
-                <a id="page-settings-back" data-icon="back">Back</a>
+                <a id="page-settings-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
             </div>
 
             <div class="page-settings-contents">
@@ -204,7 +228,7 @@
                     by the orgnizers.
                 </p>
                 <input id="page-settings-allow-new-ride-notifications" type="checkbox" value=""></input>
-                <label for="page-settings-allow-new-ride-notifications">Allow New Ride Notifications</label>
+                <label id="page-settings-allow-new-ride-notifications-label" for="page-settings-allow-new-ride-notifications">Allow New Ride Notifications</label>
                 <hr/>
                 <p>
                     Slow Roll Buffalo works with partners from all over the city.  When you're 
@@ -212,7 +236,7 @@
                     you a notification of any current promotions for that partner.
                 </p>
                 <input id="page-settings-allow-partner-notifications" type="checkbox" value=""></input>
-                <label for="page-settings-allow-partner-notifications">Allow Partner Notifications</label>
+                <label id="page-settings-allow-partner-notifications-label" for="page-settings-allow-partner-notifications">Allow Partner Notifications</label>
                 <hr/>
 
             </div>

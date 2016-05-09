@@ -75,8 +75,16 @@ a {
 
 .ui-btn {
     margin-top: .3rem;
+    font-size: 16px !important;
 }
 
+.ui-header h1 {
+    font-weight: 400 !important;
+}
+
+.ui-header i {
+    padding-right: 0px !important;
+}
 
 /*
  * Helper Classes
@@ -260,6 +268,28 @@ a {
     background: rgba(255,0,0,.2);
 }
 
+.bad-input {
+    border: 2px solid #e89980 !important;
+    background: rgba(255, 0, 0, .3) !important;
+}
+
+/*
+ * Refresh overlay
+ */
+
+#refresh-icon-overlay {
+    position: absolute;
+    top: 25%;
+    /*left: 50%;*/
+    width: 100%;
+    /*height: 4rem;*/
+    /*margin: auto;*/
+    text-align: center;
+}
+
+#refresh-icon-overlay img {
+    margin: auto;
+}
 
 
 /*
@@ -285,6 +315,34 @@ a {
     border-bottom: 1px solid #AAA;
 }
 
+.more-ride-info i {
+    padding-right: 0px;
+}
+
+/*
+ * Ride Page
+ */
+
+#ride-info-wrapper {
+    text-align: left
+}
+
+#ride-info {
+    text-align: center;
+}
+
+#ride-info-wrapper b {
+    padding-left: 1rem;
+}
+
+#ride-description {
+    padding: 2rem;
+}
+
+.checked-in {
+    background-color: rgba(80,255,80,.6) !important;
+    color: #222;
+}
 
 /*
  * Parters Page
@@ -317,7 +375,7 @@ a {
  */
 
 #page-partner {
-    padding-top: 1rem;
+    /*padding-top: 1rem;*/
 }
 
 #partner-info-wrapper {

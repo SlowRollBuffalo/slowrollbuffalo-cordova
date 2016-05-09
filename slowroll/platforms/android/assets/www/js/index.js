@@ -102,6 +102,8 @@ var app = {
 						app.display_page('login');
 						break;
 					case 'partners':
+						app.display_page('rides');
+						break;
 					case 'rides':
 
 						// this will have to do for now ...
@@ -128,7 +130,8 @@ var app = {
 					    );
 					    */
 						break;
-					case 'parter':
+					case 'ride':
+					case 'partner':
 					case 'settings':
 						app.display_page(app.previous_page);
 						break;
@@ -188,6 +191,7 @@ var app = {
 	        		app.display_page('partners');
 	        		break;
 	        	case 'settings':
+	        		// not sure if this makes sense ... but we'll keep it for now
 	        		app.display_page(app.previous_page);
 	        		break;
 	        	case '':
@@ -243,7 +247,7 @@ var app = {
 				},
 				function() {
 					// todo: show error popup
-					alert('bad login!');
+					alert("The email and passwored you entered did not match.  Please try again.");
 				}
 			);
 		});
@@ -251,6 +255,12 @@ var app = {
 		$('#page-login-register').on('click', function() {
 			app.display_page('register');
 		});
+
+		$('#page-register-first').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-last').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-email').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-password1').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-password2').focus(function() {$(this).removeClass('bad-input')});
 
 		//
 		// Register Page
@@ -267,12 +277,42 @@ var app = {
 			var password1 = $.sha256($('#page-register-password1').val());
 			var password2 = $.sha256($('#page-register-password2').val());
 
+			$('#page-register-first').removeClass('bad-input');
+			$('#page-register-last').removeClass('bad-input');
+			$('#page-register-email').removeClass('bad-input');
+			$('#page-register-password1').removeClass('bad-input');
+			$('#page-register-password2').removeClass('bad-input');
+
 			if ( password1 != password2 ) {
 				alert("Herm, looks like you didn't type the same password both times.  Try again.");
 				return;
 			}
 
-			if ( first == '' || last == '' || !validateEmail(email) || password1 == '' || password2 == '') {
+			var bad_input = false;
+
+			if ( first == '' ) {
+				$('#page-register-first').addClass('bad-input');
+				bad_input = true;
+			}
+
+			if ( last == '' ) {
+				$('#page-register-last').addClass('bad-input');
+				bad_input = true;
+			}
+
+			if ( !validateEmail(email) ) {
+				$('#page-register-email').addClass('bad-input');
+				bad_input = true;
+			}
+
+			if ( $('#page-register-password1').val() == '' || $('#page-register-password2').val() == '' ) {
+				$('#page-register-password1').addClass('bad-input');
+				$('#page-register-password2').addClass('bad-input');
+				bad_input = true;
+			}
+
+			//if ( first == '' || last == '' || !validateEmail(email) || password1 == '' || password2 == '') {
+			if ( bad_input ) {
 				alert("Yikes! Looks like you're missing some info to register.  Please try again.");
 				return;
 			}
@@ -349,9 +389,25 @@ var app = {
 		// Nav Menu
 		//
 		$('#gear-menu').on('click', function() {
-			console.log('dots menu toggled.');
+			console.log('gears menu toggled.');
 			$('#gear-menu-dropdown').toggle();
 		});
+
+		$('#refresh-menu').on('click', function() {
+			console.log('refresh menu toggled.');
+			$('#refresh-icon-overlay').show();
+			switch(app.current_page) {
+				case 'rides':
+					app.get_rides();
+					break;
+				case 'partners':
+					app.get_partners();
+					break;
+				case '':
+				default:
+					break;
+			}
+		});		
 
 		$(document).click(function (event) {
 			console.log(event);
@@ -366,6 +422,15 @@ var app = {
 		$('#page-partner-back').on('click', function() {
 			app.display_page('partners');
 		});
+
+		//
+		// Ride Page
+		//
+
+		$('#page-ride-back').on('click', function() {
+			app.display_page('rides');
+		});
+		
 
 		//
 		// Navigation Links
@@ -409,6 +474,9 @@ var app = {
 		// on "first boot" we'll set allow partner notications to true
 		if ( app._load_object('allow-partner-notifications') == null ) {
 			app._save_object('allow-partner-notifications', {allow: true});
+			$('#page-settings-allow-new-ride-notifications').prop('data-cacheval', false);
+			$('#page-settings-allow-new-ride-notifications-label').addClass('ui-checkbox-on');
+			$('#page-settings-allow-new-ride-notifications-label').removelass('ui-checkbox-off');
 		}
 		$('#page-settings-allow-partner-notifications').change(function() {
 
@@ -422,6 +490,9 @@ var app = {
 		// on "first boot" we'll set allow new ride notications to true
 		if ( app._load_object('allow-new-ride-notifications') == null ) {
 			app._save_object('allow-new-ride-notifications', {allow: true});
+			$('#page-settings-allow-new-ride-notifications').prop('data-cacheval', false);
+			$('#page-settings-allow-new-ride-notifications-label').addClass('ui-checkbox-on');
+			$('#page-settings-allow-new-ride-notifications-label').removeClass('ui-checkbox-off');
 		}
 		$('#page-settings-allow-new-ride-notifications').change(function() {
 
@@ -534,6 +605,7 @@ var app = {
 							if ( callback != undefined ) { callback(); }
 						},
 						function() {
+							$('#refresh-icon-overlay').hide();
 							app.display_page('login');
 						}
 					);
@@ -600,6 +672,9 @@ var app = {
 	display_page: function(page, immediate) {
 
 		console.log('display_page(), page = "' + page + '"');
+
+		$('#refresh-icon-overlay').hide();
+
 		app.previous_page = app.current_page;
 		app.current_page = page;
 		if ( immediate == true )
@@ -623,6 +698,9 @@ var app = {
 				//$('.top-bar').show();
 				//$('.tab-bar').hide();
 				//$('#menu-wrapper').hide();
+				break;
+			case 'ride':
+				$('.header-nav-wrapper').hide();
 				break;
 			case 'partner':
 				$('.header-nav-wrapper').hide();
@@ -650,22 +728,36 @@ var app = {
 				$('#nav-link-rides').addClass('ui-btn-active');
 				app.get_rides();
 				break;
+			case 'ride':
+				// none
+				break;
 			case 'partners':
 				$('#nav-link-partners').addClass('ui-btn-active');
 				app.get_partners();
 				break;
 			case 'partner':
-				//$('#nav-link-partners').addClass('ui-btn-active');
+				// none
 				break;
 			case 'settings':
 
 				var allow = app._load_object('allow-new-ride-notifications')['allow'];
-				$('#page-settings-allow-new-ride-notifications').prop('checked', allow);
 				console.log('allow-new-ride-notifications = ' + allow);
+				$('#page-settings-allow-new-ride-notifications').prop('checked', allow);
+				$('#page-settings-allow-new-ride-notifications').prop('data-cacheval', !allow);
+				var str_allow_add = ((allow == true) ? 'on' : 'off' );
+				var str_allow_remove = ((allow == true) ? 'off' : 'on' );
+				$('#page-settings-allow-new-ride-notifications-label').addClass('ui-checkbox-' + str_allow_add);
+				$('#page-settings-allow-new-ride-notifications-label').removeClass('ui-checkbox-' + str_allow_remove);
 
 				var allow = app._load_object('allow-partner-notifications')['allow'];
-				$('#page-settings-allow-partner-notifications').prop('checked', allow);
 				console.log('allow-partner-notifications = ' + allow);
+				$('#page-settings-allow-partner-notifications').prop('checked', allow);
+				$('#page-settings-allow-partner-notifications').prop('data-cacheval', !allow);
+				var str_allow_add = ((allow == true) ? 'on' : 'off' );
+				var str_allow_remove = ((allow == true) ? 'off' : 'on' );
+				$('#page-settings-allow-partner-notifications-label').addClass('ui-checkbox-' + str_allow_add);
+				$('#page-settings-allow-partner-notifications-label').removeClass('ui-checkbox-' + str_allow_remove);
+				
 
 				break;
 			default:
@@ -676,6 +768,8 @@ var app = {
 		//	$('#page-' + page).show();
 		//else
 		//	$('#page-' + page).show(300);
+
+		console.log('app,display_page(), showing page: ' + page);
 
 		//$('#page-' + page).animate({width:'toggle'},350);
 		$('#page-' + page).show();
@@ -750,6 +844,22 @@ var app = {
 	},
 
 
+	render_datetime: function(datetime) {
+		var str_datetime;
+
+		// comes in YYYY-MM-DD HH:MM:SS with HH being 24 hour format
+
+		var year = datetime.split(' ')[0].split('-')[0];
+		var month = datetime.split(' ')[0].split('-')[1];
+		var day =datetime.split(' ')[0].split('-')[2];
+		var hour = datetime.split(' ')[1].split(':')[0];
+		var minute = datetime.split(' ')[1].split(':')[1];
+		var am_pm = ((parseInt(hour) > 11) ? 'PM' : 'AM');
+
+		str_datetime = month + '/' + day + '/' + year + ' ' + hour + ':' + minute + ' ' + am_pm;
+
+		return str_datetime;
+	},
 
 	/****************************************************************
 	 * rides
@@ -786,6 +896,7 @@ var app = {
 				// todo: fail eligantly 
 				console.log('get_rides(), error');
 				console.log(resp);
+				app.display_page('login');
 			},
 		});
 	},
@@ -805,7 +916,7 @@ var app = {
 		var rides = app._load_object('rides');
 
 		console.log('rides:');
-		console.log(app.rides);
+		console.log(rides);
 
 		var html = '';
 		for(var i=0; i<rides.length; i++) {
@@ -817,13 +928,13 @@ var app = {
 			html += '<div class="ride-entry">';
 
 			// check if we're within 1 hour before or after the ride starts
-            if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
-            	// display the checkin button
-            	html += '<button id = "' + ride.id + '" class="right">Check In!</button>';
-            }
-            
+            //if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
+            //	// display the checkin button
+            //	html += '<button id = "' + ride.id + '" class="right">Check In!</button>';
+            //}
+            html += '    <button id="' + ride.id + '" class="right more-ride-info"><i class="fa fa-info"></i></button>';
             html += '    <span class=""><b>' + ride.title + '</b></span><br>';
-            html += '    <span><i class="fa fa-calendar-o"></i>' + ride.ride_datetime + '</span><br>';
+            html += '    <span><i class="fa fa-calendar-o"></i>' + app.render_datetime(ride.ride_datetime) + '</span><br>';
             html += '    <span><i class="fa fa-map-marker"></i>' + ride.address_0 + '</span></br>';
             html += '    <span class="span-buffer">' + ride.city + ', ' + ride.zipcode + '</span><br/>';
             
@@ -832,8 +943,35 @@ var app = {
 		}
 
 		// set the elements in the DOM
+		$('#ride-list').hide();
 		$('#ride-list').html(html);
 
+		// the elements need to be in the DOM before we can apply the click event hooks
+		for( var i=0; i<rides.length; i++) {
+			
+        	var ride = rides[i];
+
+			console.log('load_rides(), registering click event for "' + ride.ride.id + '"');
+			console.log('load_rides, ride:', ride.ride);
+
+        	$('#' + ride.ride.id).on('click', function() {
+        		console.log('click!');
+        		app.display_page('ride');
+        		var ride_id = this.id;
+        		//app.get_partners(function(resp) {
+        			for(var j=0;j<app.rides.length;j++) {
+        				if ( app.rides[j].ride.id == ride_id ) {
+        					app.ride = app.rides[j];
+        					app.load_ride();
+        					break;
+        				}
+        			}
+        		//});
+        	});
+		}
+
+
+		/*
 		// can't set the click call backs until the elements are in the DOM
 		for(var i=0; i<rides.length; i++) {
 			var ride = rides[i].ride;
@@ -853,9 +991,97 @@ var app = {
 				});
 			}
 		}
+		*/
+
+		$('#ride-list').show();
+
+		$('#refresh-icon-overlay').hide();
 
 	},
 
+	/****************************************************************
+	 * ride
+	 *
+	 * This is the current ride than the user has requested to get
+	 * more information about
+	 *
+	 ****************************************************************/
+	ride: {},
+
+	/****************************************************************
+	 * load_ride()
+	 *
+	 * This updats the ride info in the app UI.
+	 *
+	 ****************************************************************/
+	load_ride: function() {
+		console.log('load_ride(), id = ' + app.ride.ride.id, 'ride: ', app.ride);
+		var html = '';
+		html += '<div id="ride-info">';
+		html += '<h2 class="">' + app.ride.ride.title + '</h2>'
+		
+		//html += '<br/>';
+        //html += '<h4>' + app.ride.level + '</h4><br/>';
+        //html += '<span><i class="fa fa-map-marker"></i>' + app.ride.address_0 + '</span><br/>';
+        //html += '<span class="span-buffer">' + app.ride.city + ', ' + app.ride.zipcode + '</span>';
+        //html += '</div>';
+        
+        html += '<span class=""><b>' + app.ride.ride.title + '</b></span><br>';
+        html += '<span><i class="fa fa-calendar-o"></i>' + app.render_datetime(app.ride.ride.ride_datetime) + '</span><br>';
+        html += '<span><i class="fa fa-map-marker"></i>' + app.ride.ride.address_0 + '</span></br>';
+        html += '<span class="span-buffer">' + app.ride.ride.city + ', ' + app.ride.ride.zipcode + '</span><br/>';
+      
+      	var now = new Date().getTime();  
+		var start_time = new Date(app.ride.ride.ride_datetime).getTime();
+
+		console.log('load_ride(), start_time:', start_time);
+
+		console.log('load_ride(), app.ride.ride.checked_in = ', app.ride.checked_in);
+
+		if ( app.ride.checked_in > 0 ) {
+
+			html += '<br><button class="checked-in">You\'re Checked In!</button>';
+
+		} else {
+
+			//if ( Math.abs( start_time - now ) < ( 3600 * 1000 ) ) { 
+            	// display the checkin button
+            	html += '<br><button id = "' + app.ride.ride.id + '-checkin" class="">Check In!</button>';
+			//}
+		}
+
+		html += '</div>';
+        html += '<hr/>';
+        
+        html += '<b>About</b>';
+        html += '<div id="ride-description">';
+		html += app.ride.ride.description;
+		html += '</div>';
+		$('#ride-info-wrapper').html(html);
+
+		if ( app.ride.checked_in == 0 ) {
+
+			// register click after html has been rendered to DOM
+			$('#' + app.ride.ride.id + '-checkin').on('click', function() {
+				console.log('load_ride(), checkin button clicked!  checking into ride ...');
+				app.checkin(
+					app.ride.ride.id,
+					// success
+					function() {
+						// todo: tell the user they checked in successfully.
+						alert("You've been checked into the ride! Happy Slow Rolling!");
+						$('#' + app.ride.ride.id + '-checkin').off('click');
+						$('#' + app.ride.ride.id + '-checkin').html("You're Checked In!");
+						$('#' + app.ride.ride.id + '-checkin').addClass('checked-in');
+						app.ride.checked_in++;
+						//$('#' + ride.id).html('Checked In');
+					}
+					// note: no error.  error will redirect to login screen
+				);
+			});
+
+		}
+	},
 
 
 	/****************************************************************
@@ -899,6 +1125,7 @@ var app = {
 				// todo: fail eligantly 
 				console.log('get_partners(), error');
 				console.log(resp);
+				app.display_page('login');
 			},
 		});
 	},
@@ -953,6 +1180,8 @@ var app = {
 
 		// show the div
 		$('#partner-list').show();
+
+		$('#refresh-icon-overlay').hide();
 	},
 
 	/****************************************************************

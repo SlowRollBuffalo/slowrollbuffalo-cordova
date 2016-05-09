@@ -1,6 +1,6 @@
 
-//var base_url = 'http://slowrollbuffalo.mycodespace.net';
-var base_url = 'http://localhost:6577';
+var base_url = 'http://slowrollbuffalo.mycodespace.net';
+//var base_url = 'http://localhost:6577';
 
 // TODO: need to generate the correct platform based on what
 //       platform we're actually on
@@ -102,6 +102,8 @@ var app = {
 						app.display_page('login');
 						break;
 					case 'partners':
+						app.display_page('rides');
+						break;
 					case 'rides':
 
 						// this will have to do for now ...
@@ -128,7 +130,8 @@ var app = {
 					    );
 					    */
 						break;
-					case 'parter':
+					case 'ride':
+					case 'partner':
 					case 'settings':
 						app.display_page(app.previous_page);
 						break;
@@ -188,6 +191,7 @@ var app = {
 	        		app.display_page('partners');
 	        		break;
 	        	case 'settings':
+	        		// not sure if this makes sense ... but we'll keep it for now
 	        		app.display_page(app.previous_page);
 	        		break;
 	        	case '':
@@ -243,7 +247,7 @@ var app = {
 				},
 				function() {
 					// todo: show error popup
-					alert('bad login!');
+					alert("The email and passwored you entered did not match.  Please try again.");
 				}
 			);
 		});
@@ -251,6 +255,12 @@ var app = {
 		$('#page-login-register').on('click', function() {
 			app.display_page('register');
 		});
+
+		$('#page-register-first').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-last').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-email').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-password1').focus(function() {$(this).removeClass('bad-input')});
+		$('#page-register-password2').focus(function() {$(this).removeClass('bad-input')});
 
 		//
 		// Register Page
@@ -595,6 +605,7 @@ var app = {
 							if ( callback != undefined ) { callback(); }
 						},
 						function() {
+							$('#refresh-icon-overlay').hide();
 							app.display_page('login');
 						}
 					);
@@ -661,6 +672,9 @@ var app = {
 	display_page: function(page, immediate) {
 
 		console.log('display_page(), page = "' + page + '"');
+
+		$('#refresh-icon-overlay').hide();
+
 		app.previous_page = app.current_page;
 		app.current_page = page;
 		if ( immediate == true )
@@ -882,6 +896,7 @@ var app = {
 				// todo: fail eligantly 
 				console.log('get_rides(), error');
 				console.log(resp);
+				app.display_page('login');
 			},
 		});
 	},
@@ -1110,6 +1125,7 @@ var app = {
 				// todo: fail eligantly 
 				console.log('get_partners(), error');
 				console.log(resp);
+				app.display_page('login');
 			},
 		});
 	},
