@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Slow Roll Buffalo</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+    <link rel="stylesheet" href="css/foundation.min.css" />
+    <link rel="stylesheet" href="css/normalize.min.css" />
+    -->
+
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.css">    
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/index.css" />
+
+
+    <!-- debug -->
+    <!--<script type="text/javascript" charset="utf-8" src="../platforms/android/assets/www/cordova.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>    
+
+    <!-- put these early to load before/along side DOM -->
+    <script type="text/javascript" charset="utf-8" src="js/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/swipupdown.js"></script>
+
+
+</head>
+<body>
+
+    <div id="gear-menu-dropdown" class="gear-menu-dropdown">
+        <!--
+        <a id="nav-link-rides" class="menu-link">Rides</a>
+        <a id="nav-link-partners" class="menu-link">Partners</a>
+        <hr/>
+        -->
+        <a id="nav-link-settings">Settings</a>
+        <!--<hr/>-->
+        <a id="nav-link-logout">Logout</a>
+    </div>
+
+    <div id="refresh-icon-overlay" style="display: none;">
+        <img src="img/gears.svg"></img>
+    </div>
+
+    <div class="header-nav-wrapper">
+        <div data-role="header" style="overflow:hidden;">
+        <h1>Slow Roll Buffalo</h1>
+            <div data-type="horizontal" class="ui-btn-right" >
+                <a id="refresh-menu" data-role="button" ><i class="fa fa-refresh"></i></a>
+                <a id="gear-menu" data-role="button" ><i class="fa fa-gear"></i></a>
+            </div>
+            <div data-role="navbar">
+                <ul>
+                    <li><a id="nav-link-rides">Rides</a></li>
+                    <li><a id="nav-link-partners">Partners</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--<div id="site-wrapper">-->
+
+    	<!--
+        <div id="splash-screen" class="splash-screen">
+    		<h1 class="splash-screen-text">Slow Roll</h1><h1>Buffalo</h1>
+    	</div>
+        -->
+
+    <div>
+        <div id="legal-modal" class="reveal-modal" data-reveal aria-hidden="true" role="dialog">
+            <h3>Legal</h3>
+            <div id="legal-modal-contents"></div>
+            <button id="legal-modal-accept" class="">Accept</button>
+            <br/>
+            <button id="legal-modal-cancel" class="">Cancel</button>
+        </div>
+    </div>
+
+    <center id="loading-gears">
+        <img class="loading-icon" src="img/gears.svg"></img>
+    </center>
+
+    <div id="pages" class="pages" style="display: none;">
+        
+        <!-- Splace Screen -->
+        <!--<div id="page-splash" class="page"></div>-->
+        <!--<section id="page-splash" class="page box special features"></section>-->
+
+        <!-- Login page -->
+        <div id="page-login" class="page">
+        <!--<section id="page-login" class="page box special features">-->
+            <center>
+                <h1>Slow Roll<br/>Buffalo</h1>
+                <hr/>
+            </center>
+            <label>Email</label>
+            <input id="page-login-email" type="text"></input>
+            <label>Password</label>
+            <input id="page-login-password" type="password"></input>
+            <br/>
+            <button id="page-login-login" class="full-width">Login</button>
+            <!--<button id="page-login-register" class="right">Register</button>-->
+            <div class="page-login-register-text">
+                Don't have an account yet?  <br/>
+                <a id="page-login-register"><b>Create One</b></a>
+            </div>
+        <!--</section>-->
+        </div>
+
+
+        <!-- Registration page -->
+        <div id="page-register" class="page">
+        <!-- <section id="page-register" class="page box special features">-->
+
+            <div data-role="header" style="overflow:hidden;">
+                <h1>Slow Roll Buffalo</h1>
+                <a id="page-register-cancel" data-icon="delete">Cancel</a>
+            </div>
+            <div class="page-register-contents">
+                <!--<center>-->
+                    <h2>New User Registeration</h2>
+                <!--</center>-->
+                <p>
+                    Fill out the information below to register for the Slow Roll Buffalo app!
+                    <br/>
+                </p>
+                <label>First Name</label>
+                <input id="page-register-first" type="text"></input>
+                <label>Last Name</label>
+                <input id="page-register-last" type="text"></input>
+                <label>Email</label>
+                <input id="page-register-email" type="text"></input>
+                <label>Password</label>
+                <input id="page-register-password1" type="password"></input>
+                <label>Password Again</label>
+                <input id="page-register-password2" type="password"></input>
+                <br/>
+                <!--<button id="page-register-cancel" class="">Cancel</button>-->
+                <button id="page-register-submit" class="">Register</button>
+            </div>
+        </div>
+        <!--</section>-->
+
+        <!-- Rides List Page -->
+        <div id="page-rides" class="page page-scrolling">
+        <!--<section id="page-rides" class="page box special features">-->
+            <h2>Upcoming Rides</h2>
+            <p>
+                Come join your fellow Buffalonians for a great Slow Roll ride!
+            </p>
+            
+            <div id="ride-list">
+                <center>
+                    <img class="loading-icon" src="img/gears.svg"></img>
+                    <h4 class="loading-text">Loading ...</h4>
+                </center>
+            </div>
+        </div>
+        <!--</section>-->
+
+        <!-- Ride Page -->
+        <div id="page-ride" class="page">
+        <!--<section id="page-ride" class="page box special features">-->
+            <!--<h2 id="page-parter-name"></h2>-->
+            <div data-role="header" style="overflow:hidden;">
+                <h1>Slow Roll Buffalo</h1>
+                <a id="page-ride-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+            <div id="ride-info-wrapper">
+                <center>
+                    <img class="loading-icon" src="img/gears.svg"></img>
+                    <h4 class="loading-text">Loading ...</h4>
+                </center>
+            </div>
+        </div>
+        <!--</section>-->
+
+        <!-- Partners List Page -->
+        <div id="page-partners" class="page page-scrolling">
+        <!--<section id="page-partners" class="page box special features">-->
+            <h2>Our Partners</h2>
+            <p>
+                Slow Roll Buffalo is made possible by the following awesome partners!
+            </p>
+            <hr/>
+            <div id="partner-list">
+                <center>
+                    <img class="loading-icon" src="img/gears.svg"></img>
+                    <h4 class="loading-text">Loading ...</h4>
+                </center>
+            </div>
+        </div>
+        <!--</section>-->
+
+        <!-- Partner Page -->
+        <div id="page-partner" class="page">
+        <!--<section id="page-partner" class="page box special features">-->
+            <!--<h2 id="page-parter-name"></h2>-->
+            <div data-role="header" style="overflow:hidden;">
+                <h1>Slow Roll Buffalo</h1>
+                <a id="page-partner-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+            <div id="partner-info-wrapper">
+                <center>
+                    <img class="loading-icon" src="img/gears.svg"></img>
+                    <h4 class="loading-text">Loading ...</h4>
+                </center>
+            </div>
+        </div>
+        <!--</section>-->
+
+        <!-- Settings Page -->
+        <div id="page-settings" class="page">
+        <!--<section id="page-settings" class="page box special features">-->
+            <div data-role="header" style="overflow:hidden;">
+                <h1>Slow Roll Buffalo</h1>
+                <a id="page-settings-back"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+
+            <div class="page-settings-contents">
+
+                <hr/>
+                <p>
+                    The Slow Roll Buffalo app can notifiy you when new Rides are scheduled
+                    by the orgnizers.
+                </p>
+                <input id="page-settings-allow-new-ride-notifications" type="checkbox" value=""></input>
+                <label id="page-settings-allow-new-ride-notifications-label" for="page-settings-allow-new-ride-notifications">Allow New Ride Notifications</label>
+                <hr/>
+                <p>
+                    Slow Roll Buffalo works with partners from all over the city.  When you're 
+                    in proximity to one of these partners, the Slow Roll Buffalo app will give
+                    you a notification of any current promotions for that partner.
+                </p>
+                <input id="page-settings-allow-partner-notifications" type="checkbox" value=""></input>
+                <label id="page-settings-allow-partner-notifications-label" for="page-settings-allow-partner-notifications">Allow Partner Notifications</label>
+                <hr/>
+
+            </div>
+
+        </div>
+        <!--</section>-->
+
+        <!-- Logout Page -->
+        <!--<section id="page-logout" class="page box special features">-->
+        <div id="page-logout" class="page">
+        </div>
+        <!--</section>-->
+
+
+    </div>
+
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.sha256.js"></script>
+    
+    <script type="text/javascript" charset="utf-8" src="js/jquery.reveal.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.dropotron.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.scrollgress.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/skel.min.js"></script>
+    
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
+    
+    <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        
+
+        //$(document).ready(function() {
+        // device is ready
+        document.addEventListener(
+            'deviceready',
+            function () {
+                // cordova.plugins.notification.local is now available
+
+                //$(document).foundation();
+                //$(document).foundation('offcanvas', 'reflow');
+
+                app.initialize();
+
+                //app.display_page('login', true);
+
+            }, false
+        );
+
+            
+        //});
+
+    </script>
+
+</body>
+</html>

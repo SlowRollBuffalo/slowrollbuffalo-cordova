@@ -1,0 +1,439 @@
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,300italic,400italic");
+
+body {
+    /*background: #f5f5f5;*/
+    background: #F8F8F8;
+    color: #777;
+    font-family: "Source Sans Pro", sans-serif !important;
+    font-size: 16pt;
+    font-weight: 300;
+    line-height: 1.65em;
+    letter-spacing: -0.015em;
+    color: rgba(48, 106, 189, 1);
+}
+
+button {
+    background: rgba(48, 106, 189, 1);
+    border: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    cursor: pointer;
+    color: #EEE;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    /*font-weight: 300;*/
+    color: rgba(242, 48, 12, 1);
+}
+
+/*
+h4 {
+    padding-bottom: .25rem;
+}*/
+
+/*p {
+    display: inline-block;
+    color: #777;
+    margin: .5em 0 .25em 0;
+    padding: .5em 0 0 0;
+    font-size: 1em;
+    line-height: 1.5em;
+    font-style: normal;
+    font-weight: 300;
+}*/
+
+/*label {
+    color: #646464;
+    display: block;
+    font-size: 0.9em;
+    font-weight: 300;
+    margin: 0 0 1em 0;
+}*/
+
+/*i {
+    padding-right: .75rem;
+}*/
+
+a {
+    border-bottom: none;
+}
+
+/*
+ * JQuery Mobile Overrides
+ */
+
+.ui-focus {
+    box-shadow: none !important;
+}
+
+.ui-page-theme-a {
+    box-shadow: none !important;
+}
+
+.ui-btn {
+    margin-top: .3rem;
+    font-size: 16px !important;
+}
+
+.ui-header h1 {
+    font-weight: 400 !important;
+}
+
+.ui-header i {
+    padding-right: 0px !important;
+}
+
+/*
+ * Helper Classes
+ */
+
+.right {
+    float: right;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.red {
+    color: rgba(242, 48, 12, 1);
+}
+
+.blue {
+    color: rgba(48, 106, 189, 1);
+}
+
+.white {
+    color: rgba(254, 254, 254, 1);  
+}
+
+/*
+ * Top bar
+ */
+
+.header-nav-wrapper {
+    display: none;
+}
+
+.top-bar-area {
+    display: none;
+    /* height: 4rem; */
+    padding-left: 1.5rem;
+    /*background: #FAFAFA;*/
+    background: #EEE !important;
+    border-bottom: 1px solid #AAAAAA;
+    box-shadow: 0 4px 2px -2px #DDDDDD;
+}
+
+.top-menu-wrapper {
+    height: 100%;
+    padding-top: 1rem;
+    float: right;
+}
+
+.gear-menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    background-color: #FAFAFA;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10000000;
+}
+
+.gear-menu-dropdown a {
+    color: black;
+    /*padding: .5rem .75rem;*/
+    padding-left: 1rem;
+    padding-bottom: 0.5rem;
+    text-decoration: none;
+    display: block;
+    font-weight: 400 !important;
+    margin: 1rem;
+}
+
+/*
+ * Pages - General
+ */
+
+.pages {
+    display: none;
+}
+
+.page {
+    display: none;
+}
+
+.pages i {
+    padding-right: .75rem;
+}
+
+/*
+ * Splash Screen
+ */ 
+
+.splash-screen {
+    height: 100%;
+    width: 100%;
+    /*background: rgba(255,0,0,.8) !important;*/
+    text-align: center;
+    /*background: rgba(242, 48, 12, 1);   */
+    /*background: #222;*/
+    background: #F8F8F8;
+}
+
+.splash-screen h1{
+    font-size: 300% !important;
+}
+
+.splash-screen-logo {
+    padding-top: 4rem;
+    font-size: 800%;
+}
+
+.splash-screen-text {
+    padding-top: 10rem;
+    /*color: rgba(48, 106, 189, 1) !important;*/
+    color: rgba(242, 48, 12, 1);
+}
+
+/*
+ * Login Page
+ */
+
+#page-login {
+    padding: 3rem;
+}
+
+#page-login h1 {
+    /*margin-top: 4rem;*/
+    font-size: 200% !important;
+}
+
+#page-login h2 {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    /*border-bottom: solid 2px #e5e5e5;*/
+}
+
+.page-login-register-text {
+    margin-top: 4rem;
+    text-align: center;
+    width: 100%;
+}
+
+.page-login-register-text b {
+    color: rgba(48, 106, 189, 1);
+}
+
+#page-login-register {
+    cursor: pointer;
+}
+
+/*
+ * Register Screen
+ */
+
+#page-register {
+    text-align: center;
+}
+
+.page-register-contents {
+    padding: 3rem;
+}
+
+#legal-modal-contents {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.loading-icon {
+    margin-top: 4rem;
+}
+
+.loading-text {
+    margin-top: 1rem;
+    color: rgba(255, 0, 0, .8);
+}
+
+#legal-modal-accept {
+    background: rgba(0,255,0,.2);
+}
+
+#legal-modal-cancel {
+    background: rgba(255,0,0,.2);
+}
+
+.bad-input {
+    border: 2px solid #e89980 !important;
+    background: rgba(255, 0, 0, .3) !important;
+}
+
+/*
+ * Refresh overlay
+ */
+
+#refresh-icon-overlay {
+    position: absolute;
+    top: 25%;
+    /*left: 50%;*/
+    width: 100%;
+    /*height: 4rem;*/
+    /*margin: auto;*/
+    text-align: center;
+}
+
+#refresh-icon-overlay img {
+    margin: auto;
+}
+
+
+/*
+ * Rides Page
+ */
+
+#page-rides h2 {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+#page-rides p {
+    text-align: center;   
+}
+
+#ride-list {
+    margin-top: .5rem;
+    text-align: left !important;
+}
+
+.ride-entry {
+    padding: 1.5rem;
+    border-bottom: 1px solid #AAA;
+}
+
+.more-ride-info i {
+    padding-right: 0px;
+}
+
+/*
+ * Ride Page
+ */
+
+#ride-info-wrapper {
+    text-align: left
+}
+
+#ride-info {
+    text-align: center;
+}
+
+#ride-info-wrapper b {
+    padding-left: 1rem;
+}
+
+#ride-description {
+    padding: 2rem;
+}
+
+.checked-in {
+    background-color: rgba(80,255,80,.6) !important;
+    color: #222;
+}
+
+/*
+ * Parters Page
+ */
+
+#page-partners h2 {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+#page-partners p {
+    text-align: center;   
+}
+
+#partner-list {
+    text-align: left !important;
+}
+
+.partner-entry {
+    padding: 1.5rem;
+    border-bottom: 1px solid #AAA;
+}
+
+.more-partner-info i {
+    padding-right: 0px;
+}
+
+/*
+ * Partner Page
+ */
+
+#page-partner {
+    /*padding-top: 1rem;*/
+}
+
+#partner-info-wrapper {
+    text-align: left
+}
+
+#partner-info {
+    text-align: center;
+}
+
+#partner-info-wrapper b {
+    padding-left: 1rem;
+}
+
+#partner-description {
+    padding: 2rem;
+}
+
+/*
+ * Settings Page
+ */
+
+.page-settings-contents {
+    text-align: center;
+    padding: 1rem;
+}
+
+.page-settings-contents p {
+    color: rgba(48, 106, 189, 1);
+    /*padding-bottom: 1rem;*/
+}
+
+
+
+
+
+/*.partner-entry i {
+    padding-right: .75rem;
+}*/
+
+/*
+.span-buffer {
+    padding-left: 1.65rem;
+}
+*/
+
+
+
+/*
+.page {
+    height: 100%;
+    display: none;
+}
+*/
+
+/*
+.page-scrolling {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+*/
