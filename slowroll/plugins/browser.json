@@ -30,6 +30,10 @@
         },
         "com.telerik.plugins.nativepagetransitions": {
             "PACKAGE_NAME": "org.slowrollbuffalo.app"
+        },
+        "phonegap-plugin-push": {
+            "SENDER_ID": "575804731367",
+            "PACKAGE_NAME": "org.slowrollbuffalo.app"
         }
     },
     "dependent_plugins": {}

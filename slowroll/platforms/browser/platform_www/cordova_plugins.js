@@ -64,6 +64,14 @@ module.exports = [
         "clobbers": [
             "window.plugins.nativepagetransitions"
         ]
+    },
+    {
+        "file": "plugins/phonegap-plugin-push/www/push.js",
+        "id": "phonegap-plugin-push.PushNotification",
+        "pluginId": "phonegap-plugin-push",
+        "clobbers": [
+            "PushNotification"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -76,7 +84,8 @@ module.exports.metadata =
     "de.appplant.cordova.plugin.local-notification": "0.8.4",
     "cordova-plugin-geolocation": "2.1.0",
     "cordova-plugin-dialogs": "1.2.0",
-    "com.telerik.plugins.nativepagetransitions": "0.6.3"
+    "com.telerik.plugins.nativepagetransitions": "0.6.3",
+    "phonegap-plugin-push": "1.6.3"
 }
 // BOTTOM OF METADATA
 });

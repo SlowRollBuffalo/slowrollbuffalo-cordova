@@ -2,6 +2,8 @@
 var base_url = 'http://slowrollbuffalo.mycodespace.net';
 //var base_url = 'http://localhost:6577';
 
+var SENDER_ID = '575804731367';
+
 // TODO: need to generate the correct platform based on what
 //       platform we're actually on
 //PLATFORM = 'android';
@@ -25,6 +27,8 @@ var app = {
 	initialize: function() {
 
 		console.log('app.initialize(), start.');
+
+		//this.push_init();
 
 		this.bind_events();
 
@@ -77,6 +81,70 @@ var app = {
         console.log('app.initialize(), exit.');
         
 	},
+
+	push: {},
+
+    init_push_notifications: function() {
+
+    	console.log('app.push_init(), start.');
+
+    	app.push = PushNotification.init({
+		    android: {
+		        senderID: SENDER_ID,
+		    },
+		    ios: {
+		        alert: "true",
+		        badge: "true",
+		        sound: "true"
+		    },
+		    windows: {}
+		});
+
+		app.push.on('registration', function(data) {
+		    // data.registrationId
+		    //console.log('app.push.on(\'registration\'), registrationId: ' + data.registrationId);
+		    //alert('app.push.on(\'registration\'), registrationId: ' + data.registrationId);
+
+		    app.user.google_registration_id = data.registrationId;
+
+		    alert('registering user id: ' + app.user.id);
+
+		    $.ajax({
+		    	'url': base_url + '/api/users/' + app.user.id + '/push_registration',
+		    	'type': 'PUT',
+		    	'data': JSON.stringify({
+		    		google_registration_id: data.registrationId,
+		    	}),
+		    	success: function(resp) {
+		    		alert('push registration with server successful.');
+		    	}, 
+		    	error: function(resp) {
+		    		alert('push registration with server failure.  status: ' + resp.status);
+		    	}
+
+		    });
+		});
+
+		app.push.on('notification', function(data) {
+		    // data.message,
+		    // data.title,
+		    // data.count,
+		    // data.sound,
+		    // data.image,
+		    // data.additionalData
+		    console.log('app.push.on(\'notification\'): ', data);
+		    //alert('app.push.on(\'notification\'), title: ' + data.title + ', message: ' + data.message);
+		});
+
+		app.push.on('error', function(error) {
+		    // e.message
+		    console.log('app.push.on(\'error\'):', error);
+		    //alert('app.push.on(\'error\'):', error);
+		});
+
+		console.log('app.push_init(), end.');
+
+    },
 
 	bind_events: function() {
 
@@ -247,7 +315,7 @@ var app = {
 				},
 				function() {
 					// todo: show error popup
-					alert("The email and passwored you entered did not match.  Please try again.");
+					alert("The email and password you entered did not match.  Please try again.");
 				}
 			);
 		});
@@ -410,7 +478,7 @@ var app = {
 		});		
 
 		$(document).click(function (event) {
-			console.log(event);
+			//console.log(event);
 			if ( event.target.id != 'gear-menu' )
 				$('#gear-menu-dropdown').hide();
 		});
@@ -552,11 +620,15 @@ var app = {
 		);
 	},
 
+	user: {},
+
 	login: function(email, password, success, failure) {
 
 		// save the credentials for use in the success callback
 		app._email = email;
 		app._password = password;
+
+		console.log('app.login() start.');
 
         $.ajax({
             url: base_url + '/api/users/login',
@@ -573,6 +645,11 @@ var app = {
             	// per the docs, the localStorage is sandboxed to the cordova
             	// app, so we can just save the login credentials there.
 
+            	console.log('app.login().success: ', resp);
+
+            	app.user = resp;
+            	app.init_push_notifications();
+
             	app._save_object('credentials', {'email': app._email, 'password': app._password});
             	app._save_object('token', {'token': resp.token});
             	app._save_object('valid_credentials', {'valid': true});
@@ -583,7 +660,10 @@ var app = {
             
             	success(resp); 
             },
-            error: function(resp) { failure(resp); }
+            error: function(resp) { 
+            	console.log('app.login.error(), resp.status = ' + resp.status);
+            	failure(resp);
+            }
         });
     },
 
@@ -597,11 +677,16 @@ var app = {
 			url: base_url + '/api/users/login',
 			type: 'GET',
 			success: function(resp) {
+
+				console.log('app.check_login().success: ', resp);
+
 				if ( resp.loggedin == false ) {
 					app.login(
 						app._load_object('credentials')['email'],
 						app._load_object('credentials')['password'],
 						function() {
+							app.user = resp.user;
+							app.init_push_notifications();
 							if ( callback != undefined ) { callback(); }
 						},
 						function() {
@@ -610,11 +695,13 @@ var app = {
 						}
 					);
 				} else {
+					app.user = resp.user;
+					app.init_push_notifications();
 					if ( callback != undefined ) { callback(); }
 				}
 			},
 			error: function() {
-				 
+				 console.log('app.check_login().error: ', resp);
 			}
 		});
 
